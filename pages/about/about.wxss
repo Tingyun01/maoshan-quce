@@ -1,0 +1,19 @@
+.container { min-height: 100vh; padding: 88rpx 32rpx 40rpx; display: flex; flex-direction: column; position: relative; background: var(--ink); }
+.bg-laozun { position: fixed; right: -40rpx; bottom: -40rpx; width: 360rpx; height: 360rpx; opacity: 0.04; z-index: 0; pointer-events: none; }
+.brand-section { display: flex; flex-direction: column; align-items: center; padding: 20rpx 0 18rpx; position: relative; z-index: 1; }
+.brand-icon-wrap { width: 100rpx; height: 100rpx; border-radius: 50%; background: rgba(245,240,235,0.06); border: 2rpx solid rgba(245,240,235,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 14rpx; overflow: hidden; }
+.brand-logo { width: 68rpx; height: 68rpx; }
+.brand-name { font-size: 36rpx; font-weight: 800; color: #F5F0EB; letter-spacing: 4rpx; }
+.brand-sub { font-size: 18rpx; color: rgba(245,240,235,0.4); letter-spacing: 4rpx; margin-top: 2rpx; }
+.brand-desc { font-size: 24rpx; color: rgba(245,240,235,0.6); line-height: 1.7; text-align: center; padding: 0 16rpx; position: relative; z-index: 1; }
+.menu-list { width: 100%; margin: 18rpx 0; background: rgba(255,255,255,0.92); border-radius: var(--radius-md); overflow: hidden; position: relative; z-index: 1; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
+.menu-item { display: flex; align-items: center; padding: 24rpx 22rpx; border-bottom: 1rpx solid rgba(26,42,40,0.02); }
+.menu-item:last-child { border-bottom: none; }
+.menu-item:active { background: rgba(201,169,110,0.04); }
+.menu-icon { font-size: 26rpx; margin-right: 14rpx; }
+.menu-text { flex: 1; font-size: 26rpx; color: var(--charcoal); }
+.menu-arrow { font-size: 28rpx; color: var(--charcoal-light); }
+.disclaimer-box { width: 100%; padding: 20rpx 18rpx; background: rgba(245,240,235,0.04); border: 1rpx solid rgba(245,240,235,0.04); border-radius: var(--radius-md); margin: 10rpx 0; position: relative; z-index: 1; }
+.disclaimer-title { font-size: 22rpx; font-weight: 600; color: rgba(245,240,235,0.5); display: block; margin-bottom: 6rpx; }
+.disclaimer-text { font-size: 22rpx; color: rgba(245,240,235,0.4); line-height: 1.7; display: block; }
+.footer-bar { width: 100%; margin-top: auto; padding-top: 20rpx; text-align: center; font-size: 20rpx; color: rgba(245,240,235,0.25); line-height: 2; position: relative; z-index: 1; }

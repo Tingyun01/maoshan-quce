@@ -1,0 +1,228 @@
+/* ============================================================ */
+/* 秘境奇谈 — 场景冒险页面样式                                   */
+/* ============================================================ */
+
+.adventure-page {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #efe5d5;
+  overflow: hidden;
+}
+
+/* 顶部栏 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 10;
+}
+.bar-left, .bar-right { width: 160rpx; font-size: 28rpx; color: #c8a87c; }
+.bar-right { text-align: right; }
+.bar-title { font-size: 32rpx; font-weight: bold; color: #e8c17a; letter-spacing: 4rpx; }
+
+/* ============ 场景列表 ============ */
+.phase-list { padding: 40rpx 32rpx 80rpx; }
+.list-header { text-align: center; margin-bottom: 56rpx; }
+.list-title-lg { font-size: 64rpx; font-weight: bold; color: #e8c17a; letter-spacing: 8rpx; margin-bottom: 16rpx; }
+.list-subtitle { font-size: 28rpx; color: #8a7a6a; letter-spacing: 4rpx; }
+
+.scenario-grid { display: flex; flex-direction: column; gap: 28rpx; }
+.scenario-card {
+  display: flex; align-items: center;
+  background: rgba(200,160,120,0.06);
+  border: 2rpx solid rgba(200,160,120,0.15);
+  border-radius: 28rpx;
+  padding: 36rpx 32rpx;
+  transition: all 0.2s;
+}
+.scenario-card:active { background: rgba(200,160,120,0.15); border-color: rgba(200,160,120,0.3); }
+.card-icon { font-size: 72rpx; margin-right: 28rpx; flex-shrink: 0; }
+.card-content { flex: 1; min-width: 0; }
+.card-title { font-size: 36rpx; font-weight: bold; color: #efe5d5; margin-bottom: 8rpx; }
+.card-desc { font-size: 26rpx; color: #8a7a6a; line-height: 1.5; }
+.card-arrow { font-size: 40rpx; color: #c8a87c; margin-left: 20rpx; flex-shrink: 0; }
+
+.list-footer { text-align: center; margin-top: 60rpx; }
+.footer-text { font-size: 26rpx; color: #5a4a3a; letter-spacing: 2rpx; }
+
+/* ============ 故事叙事 ============ */
+.phase-story {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: calc(100vh - 120rpx);
+  padding: 40rpx 40rpx 80rpx;
+}
+
+.story-container { width: 100%; max-width: 1000rpx; }
+
+.mood-glow {
+  width: 240rpx; height: 240rpx; margin: 0 auto 60rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,160,120,0.15) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.story-text-area {
+  background: rgba(0,0,0,0.3);
+  border-left: 4rpx solid rgba(200,160,120,0.3);
+  padding: 40rpx 36rpx;
+  border-radius: 0 16rpx 16rpx 0;
+  margin-bottom: 56rpx;
+  min-height: 200rpx;
+}
+.story-text {
+  font-size: 34rpx; line-height: 2;
+  color: #d5cbb5;
+  white-space: pre-line;
+  letter-spacing: 1rpx;
+}
+
+/* 选项 */
+.choices-area { display: flex; flex-direction: column; gap: 24rpx; }
+.choice-btn {
+  background: rgba(40,30,20,0.7);
+  border: 2rpx solid rgba(200,160,120,0.25);
+  border-radius: 24rpx;
+  padding: 32rpx 36rpx;
+  transition: all 0.2s;
+  text-align: center;
+}
+.choice-btn:active {
+  background: rgba(200,160,120,0.2);
+  border-color: rgba(200,160,120,0.5);
+  transform: scale(0.98);
+}
+.choice-text { font-size: 32rpx; color: #efe5d5; line-height: 1.6; }
+
+/* 终章提示 */
+.end-hint {
+  text-align: center; margin-top: 60rpx;
+  animation: fadeInUp 0.8s ease-out;
+}
+.hint-pulse {
+  font-size: 36rpx; color: #e8c17a;
+  animation: pulse 1.5s ease-in-out infinite;
+  letter-spacing: 4rpx;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ 结局展示 ============ */
+.phase-result {
+  min-height: calc(100vh - 120rpx);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40rpx;
+}
+
+/* 道教人物卡图 */
+.result-image-wrap { width: 160rpx; height: 160rpx; border-radius: 50%; overflow: hidden; margin: 0 auto 20rpx; border: 3rpx solid rgba(201,169,110,0.2); box-shadow: 0 0 40rpx rgba(200,160,120,0.1); }
+.result-portrait { width: 100%; height: 100%; }
+.result-image-fallback { display: flex; align-items: center; justify-content: center; background: rgba(200,160,120,0.08); }
+.rip-fallback { font-size: 64rpx; color: #c8a87c; }
+
+/* 分享卡弹窗 */
+.poster-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 100; display: flex; align-items: center; justify-content: center; }
+.poster-inner { width: 520rpx; display: flex; flex-direction: column; align-items: center; }
+.poster-img { width: 520rpx; border-radius: 14rpx; }
+.poster-actions { display: flex; gap: 14rpx; margin-top: 18rpx; width: 100%; }
+.poster-btn { flex: 1; padding: 16rpx 0; text-align: center; font-size: 24rpx; color: #FFF8F5; background: rgba(255,255,255,0.08); border-radius: 18rpx; }
+.poster-btn.primary { background: linear-gradient(135deg, #c8a87c, #a08060); font-weight: 600; }
+.poster-btn:active { opacity: 0.7; }
+.poster-close { font-size: 22rpx; color: rgba(245,240,230,0.35); padding: 16rpx; }
+
+/* 结局展示主容器 */
+.phase-result {
+  min-height: calc(100vh - 120rpx);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40rpx;
+}
+
+.result-scroll {
+  width: 100%; max-width: 900rpx;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.result-header { text-align: center; margin-bottom: 40rpx; }
+.result-icon { font-size: 96rpx; margin-bottom: 16rpx; }
+.result-title { font-size: 56rpx; font-weight: bold; color: #FFD700; letter-spacing: 4rpx; margin-bottom: 12rpx; }
+.result-sum { font-size: 32rpx; color: #c8a87c; letter-spacing: 2rpx; margin-bottom: 16rpx; }
+.result-rank {
+  display: inline-block;
+  background: rgba(200,160,120,0.15); color: #e8c17a;
+  font-size: 28rpx; padding: 8rpx 28rpx; border-radius: 40rpx;
+  letter-spacing: 2rpx;
+}
+
+.result-brief {
+  background: rgba(0,0,0,0.3);
+  padding: 32rpx; border-radius: 20rpx;
+  font-size: 30rpx; line-height: 1.8; color: #c8b898;
+  margin-bottom: 40rpx;
+  letter-spacing: 1rpx;
+}
+
+/* 属性条 */
+.result-dims { margin-bottom: 40rpx; }
+.dim-title { font-size: 28rpx; color: #8a7a6a; margin-bottom: 20rpx; letter-spacing: 4rpx; }
+.dim-bar {
+  display: flex; align-items: center; margin-bottom: 16rpx;
+}
+.dim-label { width: 100rpx; font-size: 26rpx; color: #a89880; flex-shrink: 0; }
+.dim-track {
+  flex: 1; height: 16rpx; background: rgba(255,255,255,0.08); border-radius: 8rpx;
+  margin: 0 20rpx; overflow: hidden;
+}
+.dim-fill {
+  height: 100%; border-radius: 8rpx;
+  background: linear-gradient(90deg, #c8a87c, #e8c17a);
+  transition: width 0.8s ease-out;
+}
+.dim-value { width: 48rpx; font-size: 24rpx; color: #c8a87c; text-align: right; flex-shrink: 0; }
+
+/* 段子 */
+.result-tagline {
+  background: rgba(200,160,120,0.1);
+  padding: 28rpx; border-radius: 20rpx;
+  font-size: 30rpx; color: #e8d5b0;
+  text-align: center; margin-bottom: 48rpx;
+  letter-spacing: 2rpx; line-height: 1.7;
+}
+
+/* 按钮 */
+.result-actions { display: flex; flex-direction: column; gap: 20rpx; margin-bottom: 32rpx; }
+.action-btn {
+  background: rgba(200,160,120,0.1);
+  border: 2rpx solid rgba(200,160,120,0.25);
+  border-radius: 24rpx;
+  color: #efe5d5; font-size: 32rpx;
+  padding: 28rpx; letter-spacing: 2rpx;
+}
+.action-btn.primary {
+  background: rgba(200,160,120,0.25);
+  border-color: rgba(200,160,120,0.5);
+  color: #FFD700; font-weight: bold;
+}
+.action-btn:active { opacity: 0.7; }
+
+.result-footer-text {
+  text-align: center; font-size: 24rpx; color: #4a3a2a;
+  letter-spacing: 2rpx; padding-bottom: 40rpx;
+}
+
+/* ============ 简洁亮色主题 ============ */
+.adventure-page.light-theme {
+  background: #1a1512;
+  color: #efe5d5;
+}
+.light-theme .story-text-area { background: rgba(20,15,10,0.5); }
+.light-theme .choice-btn { background: rgba(30,20,15,0.8); }

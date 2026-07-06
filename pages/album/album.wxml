@@ -1,0 +1,94 @@
+<view class="container {{themeClass}}" style="padding-top: {{statusBarHeight + 12}}px;">
+  <!-- 返回 -->
+  <view class="page-back" bindtap="goBack">← 返回首页</view>
+
+  <!-- 顶部统计 -->
+  <view class="album-header">
+    <text class="album-title">📖 结果图鉴</text>
+    <text class="album-sub">收集所有测试结果，点亮你的仙途</text>
+  </view>
+  <view class="album-stats">
+    <view class="as-item">
+      <text class="as-num">{{stats.unlocked}}</text>
+      <text class="as-label">已解锁</text>
+    </view>
+    <view class="as-divider"></view>
+    <view class="as-item">
+      <text class="as-num">{{stats.total}}</text>
+      <text class="as-label">总数</text>
+    </view>
+    <view class="as-divider"></view>
+    <view class="as-item">
+      <text class="as-num">{{stats.percent}}%</text>
+      <text class="as-label">收集进度</text>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="album-progress">
+    <view class="ap-track">
+      <view class="ap-fill" style="width: {{stats.percent}}%"></view>
+    </view>
+  </view>
+
+  <!-- 分组列表 -->
+  <view class="album-groups" wx:for="{{groups}}" wx:key="testId">
+    <view class="group-header">
+      <text class="group-name">{{item.testName}}</text>
+      <text class="group-count">{{item.unlockedCount}}/{{item.totalCount}}</text>
+    </view>
+    <view class="group-grid">
+      <view class="collect-card {{i.unlocked ? 'unlocked' : 'locked'}}"
+            wx:for="{{item.items}}" wx:key="key"
+            data-key="{{i.key}}"
+            bindtap="onItemTap">
+        <view class="cc-overlay" wx:if="{{!i.unlocked}}">
+          <text class="cc-lock-icon">🔒</text>
+        </view>
+        <text class="cc-icon">{{i.unlocked ? '✨' : '?'}}</text>
+        <text class="cc-name">{{i.unlocked ? i.typeName : '???'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view style="height: 60rpx;"></view>
+
+  <!-- ===== 大图详情浮层 ===== -->
+  <view class="detail-overlay" wx:if="{{showDetail && detailItem}}" bindtap="closeDetail">
+    <view class="detail-card" catchtap="">
+      <image class="detail-image" src="{{detailImageUrl}}" mode="aspectFill"
+             wx:if="{{detailImageUrl}}"></image>
+      <!-- 品牌遮挡层 - 覆盖水印，防盗 -->
+      <view class="detail-brand-bar">
+        <image class="detail-qrcode" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
+        <view class="detail-brand-texts">
+          <text class="detail-brand-name">茅山趣测</text>
+          <text class="detail-brand-sub">微信搜一搜</text>
+        </view>
+      </view>
+      <view class="detail-info">
+        <text class="detail-testname">{{detailItem.testName}}</text>
+        <text class="detail-typename">{{detailItem.typeName}}</text>
+        <!-- 道德经金句 -->
+        <text class="detail-daojing">「{{daojing}}」</text>
+        <!-- 抽签入口 -->
+        <view class="detail-draw" bindtap="drawLot" data-stop="{{''}}">
+          <text class="draw-icon">🎋</text>
+          <text class="draw-text">抽一支茅山签</text>
+        </view>
+      </view>
+      <view class="detail-close" bindtap="closeDetail">关闭</view>
+    </view>
+  </view>
+
+  <!-- ===== 抽签结果弹窗 ===== -->
+  <view class="lot-overlay" wx:if="{{showLotResult && lotResult}}" bindtap="closeLot">
+    <view class="lot-card" catchtap="">
+      <text class="lot-icon">🎋</text>
+      <text class="lot-title">{{lotResult.text}}</text>
+      <text class="lot-meaning">{{lotResult.meaning}}</text>
+      <view class="lot-close" bindtap="closeLot">收下签文</view>
+    </view>
+  </view>
+</view>

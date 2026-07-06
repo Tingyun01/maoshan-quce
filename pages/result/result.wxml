@@ -1,0 +1,159 @@
+<view class="container {{themeClass}} page-enter" style="padding-top: {{statusBarHeight}}px;">
+  <image class="bg-bagua" src="/images/八卦.jpg" mode="aspectFit"></image>
+
+  <!-- 返回键（使用全局 .page-back 样式） -->
+  <view class="page-back" bindtap="goBack">← 返回首页</view>
+
+  <!-- 结果卡片 -->
+  <view class="result-card {{showResult ? 'show' : ''}}">
+    <!-- 称号 -->
+    <view class="rank-badge" wx:if="{{rank}}">{{rank}}</view>
+
+    <text class="result-icon">{{testIcon}}</text>
+    <text class="result-type">{{typeTitle}}</text>
+    <text class="result-summary">{{typeSummary}}</text>
+    <view class="result-divider"></view>
+
+    <!-- 稀有度 -->
+    <view class="rarity-tag" wx:if="{{rarity}}">{{rarity}}</view>
+
+    <!-- 段子式tagline（分享核心文案） -->
+    <text class="tagline" wx:if="{{tagline}}" bindtap="copyConversation">{{tagline}} 📋</text>
+
+    <!-- 性格简析 -->
+    <text class="result-brief">{{typeBrief}}</text>
+
+    <!-- 双视角描述（别人眼中的你 vs 本质上的你） -->
+    <view class="dual-perspective" wx:if="{{othersView}}">
+      <view class="dp-row">
+        <text class="dp-icon">👀</text>
+        <text class="dp-text"><text class="dp-label-text">别人眼中的你：</text>{{othersView}}</text>
+      </view>
+      <view class="dp-row">
+        <text class="dp-icon">💎</text>
+        <text class="dp-text"><text class="dp-label-text">本质上的你：</text>{{trueSelf}}</text>
+      </view>
+    </view>
+
+    <!-- 优缺点 -->
+    <view class="pros-cons" wx:if="{{strengths || weaknesses}}">
+      <text class="pc-label">天赋 / 命门</text>
+      <text class="pc-pros" wx:if="{{strengths}}">✅ {{strengths}}</text>
+      <text class="pc-cons" wx:if="{{weaknesses}}">⚠️ {{weaknesses}}</text>
+    </view>
+
+    <!-- 适合职业 -->
+    <view class="career-tip" wx:if="{{career}}">💼 适合职业：{{career}}</view>
+
+    <!-- 评分条 -->
+    <view class="ratings-bar" wx:if="{{ratings}}">
+      <view class="rating-item" wx:for="{{ratingKeys}}" wx:key="index">
+        <text class="rating-label">{{item}}</text>
+        <view class="rating-track">
+          <view class="rating-fill" style="width: {{animateRatings ? (ratings[item] / 10) * 100 + '%' : '0%'}}"></view>
+        </view>
+        <text class="rating-value">{{ratings[item]}}/10</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 好友PK对比结果 ===== -->
+  <view class="pk-section" wx:if="{{friendResult}}">
+    <view class="pk-header">⚔️ 好友PK结果</view>
+    <view class="pk-row">
+      <view class="pk-side pk-friend">
+        <text class="pk-label">好友</text>
+        <text class="pk-name">{{friendResult.title}}</text>
+        <text class="pk-rank" wx:if="{{friendResult.rank}}">{{friendResult.rank}}</text>
+      </view>
+      <text class="pk-vs">VS</text>
+      <view class="pk-side pk-me">
+        <text class="pk-label">你</text>
+        <text class="pk-name">{{typeTitle}}</text>
+        <text class="pk-rank" wx:if="{{rank}}">{{rank}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 一键复制话题文案 -->
+  <view class="copy-bar" wx:if="{{conversation}}" bindtap="copyConversation">
+    <text class="copy-icon">📋</text>
+    <text class="copy-text">复制话题文案，发朋友圈！</text>
+  </view>
+
+  <!-- AI分析 -->
+  <view class="ai-section" wx:if="{{aiUnlocked}}">
+    <text class="ai-title">🔮 AI专属修炼指南</text>
+    <text class="ai-content">{{aiText}}</text>
+  </view>
+  <view class="unlock-btn" wx:else bindtap="unlockAI">
+    <text class="unlock-icon">🔓</text>
+    <text class="unlock-text">看广告解锁AI专属修炼指南</text>
+  </view>
+
+  <!-- 操作区 -->
+  <view class="share-row">
+    <view class="share-btn poster-btn" bindtap="generatePoster">🖼️ 生成分享海报</view>
+    <button class="share-btn" open-type="share">📤 分享好友</button>
+  </view>
+
+  <!-- ===== 再来一测 · 快捷入口 ===== -->
+  <view class="retest-card" bindtap="goRetest">
+    <view class="rc-left">
+      <text class="rc-icon">🎲</text>
+      <view class="rc-texts">
+        <text class="rc-title">意犹未尽？再来一测</text>
+        <text class="rc-sub">换个玩法，发现不一样的自己</text>
+      </view>
+    </view>
+    <text class="rc-arrow">→</text>
+  </view>
+
+  <!-- ===== 问道之旅·通关提示 ===== -->
+  <view class="journey-complete" wx:if="{{journeyComplete}}">
+    <view class="jc-header">
+      <text class="jc-icon">🏔️</text>
+      <text class="jc-title">问道之旅 · 通关</text>
+    </view>
+    <text class="jc-level">{{journeyLevel.name}}</text>
+    <text class="jc-master">{{journeyLevel.master}}："{{journeyLevel.masterSays}}"</text>
+    <text class="jc-daojing">「{{journeyLevel.daojing}}」</text>
+    <view class="jc-next" wx:if="{{nextLevel}}" bindtap="goNextLevel">
+      <text class="jc-next-text">下一关：{{nextLevel.name}}</text>
+      <text class="jc-next-arrow">→</text>
+    </view>
+    <view class="jc-all-done" wx:else>
+      <text class="jc-all-text">🎉 全部通关！你已位列仙班！</text>
+    </view>
+  </view>
+
+  <!-- 好友对比入口 -->
+  <view class="compare-entry" bindtap="copyCompareLink">
+    <text class="ce-icon">🤝</text>
+    <text class="ce-text">邀请好友测一测，看谁更准？</text>
+    <text class="ce-arrow">›</text>
+  </view>
+  <text class="slogan-bottom">遇事不决 · 茅山一测</text>
+  <text class="disclaimer">本服务为趣味娱乐工具 · 测试结果仅供娱乐</text>
+
+  <canvas type="2d" id="sharePosterCanvas" style="width:540px;height:720px;position:fixed;top:-9999px;left:-9999px;"></canvas>
+
+  <view class="poster-overlay" wx:if="{{showSharePoster}}" bindtap="closePoster">
+    <view class="poster-card" catchtap="">
+      <image class="poster-img" src="{{sharePosterUrl}}" mode="widthFix"></image>
+      <!-- 品牌遮挡层 — 右下角覆盖水印 -->
+      <view class="poster-brand-bar">
+        <image class="pb-qrcode" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
+        <view class="pb-texts">
+          <text class="pb-name">茅山趣测</text>
+          <text class="pb-sub">微信搜一搜</text>
+        </view>
+      </view>
+      <view class="poster-actions">
+        <view class="poster-save" bindtap="savePoster">💾 保存到相册</view>
+        <button class="poster-share" open-type="share">📤 分享好友</button>
+      </view>
+      <view class="poster-close" bindtap="closePoster">关闭</view>
+    </view>
+  </view>
+</view>

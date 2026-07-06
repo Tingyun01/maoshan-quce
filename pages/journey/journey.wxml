@@ -1,0 +1,103 @@
+<view class="container {{themeClass}}" style="padding-top: {{statusBarHeight + 12}}px;">
+  <!-- 返回 -->
+  <view class="page-back" bindtap="goBack">← 返回首页</view>
+
+  <!-- 顶部：路线标题+进度 -->
+  <view class="journey-header">
+    <text class="journey-title">🏔️ 茅山问道之旅</text>
+    <text class="journey-sub">从山门到顶峰 · 一关一景一测试</text>
+  </view>
+
+  <!-- 进度大卡 -->
+  <view class="journey-progress-card">
+    <view class="jp-stats">
+      <view class="jp-item"><text class="jp-num">{{progress.completed}}</text><text class="jp-label">已通关</text></view>
+      <view class="jp-divider"></view>
+      <view class="jp-item"><text class="jp-num">{{progress.total}}</text><text class="jp-label">总关数</text></view>
+      <view class="jp-divider"></view>
+      <view class="jp-item"><text class="jp-num">{{progress.percent}}%</text><text class="jp-label">完成度</text></view>
+    </view>
+    <view class="jp-track"><view class="jp-fill" style="width:{{progress.percent}}%"></view></view>
+  </view>
+
+  <!-- 关卡列表 -->
+  <view class="level-list">
+    <view class="level-item {{l.completed ? 'done' : (l.active ? 'active' : 'locked')}}"
+          wx:for="{{levels}}" wx:key="id"
+          data-id="{{l.id}}" data-idx="{{index}}"
+          bindtap="onLevelTap">
+      <!-- 左侧：状态图标 -->
+      <view class="li-status">
+        <text class="li-icon" wx:if="{{l.completed}}">✅</text>
+        <text class="li-icon" wx:elif="{{l.active}}">{{l.cardRarity === 'SSR' ? '🌟' : (l.cardRarity === 'UR' ? '👑' : '🔓')}}</text>
+        <text class="li-icon" wx:else>🔒</text>
+      </view>
+      <!-- 中间：关信息 -->
+      <view class="li-info">
+        <view class="li-top">
+          <text class="li-name">{{l.name}}</text>
+          <text class="li-zone">{{l.zone}}</text>
+        </view>
+        <text class="li-master">{{l.master}} · {{l.testDisplay}}</text>
+        <text class="li-advice" wx:if="{{l.completed && l.daojing}}">「{{l.daojing}}」</text>
+        <text class="li-hint" wx:elif="{{l.active && !l.completed}}">点击进入 →</text>
+        <text class="li-hint-locked" wx:elif="{{!l.active}}">完成上一关解锁</text>
+      </view>
+      <!-- 右侧：稀有度标签 -->
+      <view class="li-rarity {{l.cardRarity}}" wx:if="{{l.completed || l.active}}">{{l.cardRarity}}</view>
+    </view>
+  </view>
+
+  <!-- 女性路线折叠入口 -->
+  <view class="female-route" wx:if="{{showFemaleRoute}}" bindtap="toggleFemaleRoute">
+    <text class="fr-icon">🌸</text>
+    <text class="fr-text">寻仙问道线 · 乾元观（女道士修行圣地）</text>
+    <text class="fr-arrow">{{showFemaleLevels ? '▲' : '▼'}}</text>
+  </view>
+  <view class="level-list" wx:if="{{showFemaleLevels}}">
+    <view class="level-item {{fl.completed ? 'done' : (fl.active ? 'active' : 'locked')}}"
+          wx:for="{{femaleLevels}}" wx:key="id"
+          data-id="{{fl.id}}" data-female="true"
+          bindtap="onLevelTap">
+      <view class="li-status">
+        <text class="li-icon" wx:if="{{fl.completed}}">✅</text>
+        <text class="li-icon" wx:elif="{{fl.active}}">🌸</text>
+        <text class="li-icon" wx:else>🔒</text>
+      </view>
+      <view class="li-info">
+        <text class="li-name">{{fl.name}}</text>
+        <text class="li-master">{{fl.master}} · {{fl.testDisplay}}</text>
+      </view>
+      <view class="li-rarity {{fl.cardRarity}}" wx:if="{{fl.completed || fl.active}}">{{fl.cardRarity}}</view>
+    </view>
+  </view>
+
+  <!-- 观主对话弹窗 -->
+  <view class="master-overlay" wx:if="{{showMasterDialog && currentLevel}}" bindtap="closeMasterDialog">
+    <view class="master-card" catchtap="">
+      <view class="mc-avatar">{{currentLevel.masterAvatar || '🧙'}}</view>
+      <text class="mc-name">{{currentLevel.master}}</text>
+      <text class="mc-scene" wx:if="{{currentLevel.masterIntro}}">{{currentLevel.masterIntro}}</text>
+      <view class="mc-divider"></view>
+      <text class="mc-words">"{{currentLevel.masterSays}}"</text>
+      <view class="mc-hint">— {{currentLevel.zone}} · {{currentLevel.name}} —</view>
+      <view class="mc-actions">
+        <view class="mc-btn mc-btn-enter" bindtap="enterLevel">🎯 接受考验</view>
+        <view class="mc-btn mc-btn-skip" bindtap="closeMasterDialog">下次再说</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 副本入口 -->
+  <view class="dungeon-entry" bindtap="goDungeon" wx:if="{{progress.completed > 0}}">
+    <text class="de-icon">🗡️</text>
+    <view class="de-texts">
+      <text class="de-title">秘境副本</text>
+      <text class="de-desc">炼丹炉·画符室·藏经阁·功德林 · 镇山四宝</text>
+    </view>
+    <text class="de-arrow">→</text>
+  </view>
+
+  <!-- 底部留白 -->
+  <view style="height: 60rpx;"></view>
+</view>

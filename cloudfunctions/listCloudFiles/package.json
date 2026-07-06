@@ -1,0 +1,9 @@
+{
+  "name": "listCloudFiles",
+  "version": "1.0.0",
+  "description": "列出云存储 /images/ 目录下所有文件",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

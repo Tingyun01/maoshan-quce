@@ -1,0 +1,54 @@
+<view class="container {{themeClass}} page-enter">
+  <!-- 老君背景装饰 -->
+  <image class="bg-laozun" src="/images/老君.jpg" mode="aspectFit"></image>
+
+  <!-- 返回 -->
+  <view class="page-back" bindtap="goBack">← 返回</view>
+
+  <!-- 品牌区 -->
+  <view class="brand-section">
+    <view class="brand-icon-wrap">
+      <image class="brand-logo" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
+    </view>
+    <text class="brand-name">茅山趣测</text>
+    <text class="brand-sub">MaoShan QuCe</text>
+    <view class="tao-divider"></view>
+    <text class="brand-desc">茅山趣测——沉浸式道教文化趣味测试。涵盖心理测试、性格测试、MBTI人格分析、前世今生、守护神兽、五行运势、每日道签等13种玩法。遇事不决·茅山一测，探索你的隐藏天赋！</text>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="menu-list">
+    <view class="menu-item" bindtap="toggleMute">
+      <text class="menu-icon">{{audioMuted ? '🔇' : '🔊'}}</text>
+      <text class="menu-text">{{audioMuted ? '音效已关' : '音效已开'}}</text>
+      <text class="menu-arrow">切换</text>
+    </view>
+    <view class="menu-item" bindtap="goPrivacy">
+      <text class="menu-icon">🔒</text>
+      <text class="menu-text">隐私政策</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goTerms">
+      <text class="menu-icon">📜</text>
+      <text class="menu-text">用户协议</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="openIcpUrl" wx:if="{{legal.icp.showInFooter && legal.icp.number}}">
+      <text class="menu-icon">🏛️</text>
+      <text class="menu-text">备案信息</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer-box">
+    <text class="disclaimer-title">⚠️ 重要声明</text>
+    <text class="disclaimer-text">本小程序所有测试结果仅供娱乐参考，不构成任何形式的专业心理评估、医学诊断或建议。请勿将测试结果作为重大决策依据。如感心理不适，请寻求专业帮助。</text>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer-bar">
+    <text bindtap="onDevTap">{{legal.copyright.year}} © {{legal.copyright.company}}</text>
+    <text>{{legal.icp.number}}</text>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+{
+  "name": "aiAnalyze",
+  "version": "1.0.0",
+  "description": "茅山趣测 AI深度分析云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

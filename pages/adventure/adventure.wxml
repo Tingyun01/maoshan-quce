@@ -1,0 +1,122 @@
+<view class="adventure-page {{themeClass}} {{mood}}">
+
+  <!-- 顶部栏 -->
+  <view class="top-bar" style="padding-top: {{statusBarHeight}}px">
+    <view class="bar-left" bindtap="goBack">← 返回</view>
+    <view class="bar-title" wx:if="{{phase === 'story' || phase === 'result'}}">{{result.scenarioTitle || '秘境奇谈'}}</view>
+    <view class="bar-title" wx:else>秘境奇谈</view>
+    <view class="bar-right"></view>
+  </view>
+
+  <!-- ============ 阶段一：场景列表 ============ -->
+  <view class="phase-list" wx:if="{{phase === 'list'}}">
+    <view class="list-header">
+      <view class="list-title-lg">🏮 秘境奇谈</view>
+      <view class="list-subtitle">每一段奇遇，都通往不同的你</view>
+    </view>
+
+    <view class="scenario-grid">
+      <view class="scenario-card" wx:for="{{scenarioList}}" wx:key="id" bindtap="startScenario" data-id="{{item.id}}">
+        <view class="card-icon">{{item.icon}}</view>
+        <view class="card-content">
+          <view class="card-title">{{item.title}}</view>
+          <view class="card-desc">{{item.desc}}</view>
+        </view>
+        <view class="card-arrow">→</view>
+      </view>
+    </view>
+
+    <view class="list-footer">
+      <view class="footer-text">✨ 每个场景有多种结局，每次选择都不一样</view>
+    </view>
+  </view>
+
+  <!-- ============ 阶段二：故事叙事 ============ -->
+  <view class="phase-story" wx:if="{{phase === 'story'}}">
+    <view class="story-container">
+      <!-- 氛围光晕 -->
+      <view class="mood-glow"></view>
+      
+      <!-- 故事文字 -->
+      <view class="story-text-area">
+        <text class="story-text">{{storyText}}</text>
+      </view>
+
+      <!-- 选项区域 -->
+      <view class="choices-area" wx:if="{{choices.length > 0 && !isEnd}}">
+        <view class="choice-btn" wx:for="{{choices}}" wx:key="text" wx:for-index="i"
+              bindtap="makeChoice" data-idx="{{i}}">
+          <view class="choice-text">{{item.text}}</view>
+        </view>
+      </view>
+
+      <!-- 终章提示 -->
+      <view class="end-hint" wx:if="{{isEnd}}">
+        <view class="hint-pulse">✨ 天命归位中...</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============ 阶段三：结局展示 ============ -->
+  <view class="phase-result" wx:if="{{phase === 'result' && result}}">
+    <view class="result-scroll">
+      <!-- 结果头部：道教人物卡图 + 标题 -->
+      <view class="result-header">
+        <view class="result-image-wrap" wx:if="{{result.imageUrl && !result.imageUrl.includes('cloud://')}}">
+          <image class="result-portrait" src="{{result.imageUrl}}" mode="aspectFill"></image>
+        </view>
+        <view class="result-image-wrap result-image-fallback" wx:else>
+          <view class="rip-fallback">{{result.scenarioIcon || '☯'}}</view>
+        </view>
+        <view class="result-title">{{result.title || '天道酬勤'}}</view>
+        <view class="result-sum">{{result.sum || result.summary || ''}}</view>
+        <view class="result-rank" wx:if="{{result.rank}}">{{result.rank}}</view>
+      </view>
+
+      <!-- 简介 -->
+      <view class="result-brief">{{result.brief}}</view>
+
+      <!-- 属性条 -->
+      <view class="result-dims" wx:if="{{result.ratings}}">
+        <view class="dim-title">你的道行</view>
+        <view class="dim-bar" wx:for="{{result.effects}}" wx:for-index="dim" wx:for-item="val" wx:key="dim" wx:if="{{val > 0}}">
+          <view class="dim-label">{{result.dimLabels[dim] || dim}}</view>
+          <view class="dim-track">
+            <view class="dim-fill" style="width: {{val * 10 > 100 ? 100 : val * 10}}%"></view>
+          </view>
+          <view class="dim-value">{{val}}</view>
+        </view>
+      </view>
+
+      <!-- 段子 -->
+      <view class="result-tagline" wx:if="{{result.tagline}}">{{result.tagline}}</view>
+
+      <!-- 分享卡生成 -->
+      <view class="result-actions">
+        <button class="action-btn primary" bindtap="generateCard">📤 生成分享卡</button>
+        <button class="action-btn" bindtap="retry">🔄 换个选法</button>
+        <button class="action-btn" bindtap="backToList">📜 换个奇遇</button>
+        <button class="action-btn" bindtap="goHome">🏠 回茅山</button>
+      </view>
+
+      <view class="result-footer-text">
+        每次选择都有不同结局 · 你的答案决定了故事的走向
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 分享卡片弹窗 ===== -->
+  <view class="poster-overlay" wx:if="{{showCard}}" bindtap="closeCard">
+    <view class="poster-inner" catchtap="">
+      <image class="poster-img" src="{{cardUrl}}" mode="widthFix" wx:if="{{cardUrl}}"></image>
+      <view class="poster-actions">
+        <view class="poster-btn primary" bindtap="saveCard">💾 保存到相册</view>
+        <view class="poster-btn" bindtap="shareCard">📤 分享给好友</view>
+      </view>
+      <view class="poster-close" bindtap="closeCard">关闭</view>
+    </view>
+  </view>
+
+  <!-- 隐藏 Canvas 用于生成分享卡 -->
+  <canvas type="2d" id="cardCanvas" style="width: 540px; height: 720px; position: fixed; left: -9999px; top: 0;"></canvas>
+</view>

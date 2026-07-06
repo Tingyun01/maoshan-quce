@@ -1,0 +1,192 @@
+<view class="guide-page {{themeClass}}">
+
+  <!-- ===== 顶部栏 ===== -->
+  <view class="guide-topbar" style="padding-top: {{statusBarHeight}}px">
+    <view class="bar-back" bindtap="goBack">← 返回</view>
+    <view class="bar-title">
+      <text wx:if="{{phase !== 'dungeon'}}">🗺️ 茅山趣测</text>
+      <text wx:if="{{phase === 'dungeon'}}">🕳️ {{dungeonParent.name}} · 内景</text>
+    </view>
+    <view class="bar-home" bindtap="goHome">🏠</view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- 主界面 -->
+  <!-- ============================================================ -->
+  <view class="map-phase" wx:if="{{phase === 'map'}}">
+    <scroll-view scroll-y class="map-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="main-layout">
+
+        <!-- ========================================================= -->
+        <!-- 上半：丰富内容 -->
+        <!-- ========================================================= -->
+        <view class="upper-half">
+
+          <!-- 顶部问候 -->
+          <view class="guide-greeting">
+            <text class="gg-title">☯️ 茅山趣测 · 问道之旅</text>
+            <text class="gg-sub">遇事不决 · 茅山一测</text>
+          </view>
+
+          <!-- 进度条 -->
+          <view class="guide-steps">
+            <view class="gs-left">
+              <text class="gs-step">第 {{currentStep + 1}} / {{totalSteps}} 关</text>
+              <text class="gs-done">✅ {{suggestedCount}} 处已探索</text>
+            </view>
+            <view class="gs-bar"><view class="gs-fill" style="width: {{(currentStep + 1) / totalSteps * 100}}%"></view></view>
+          </view>
+
+          <!-- 当前关卡大卡片 -->
+          <view class="current-card" bindtap="onEnterSpot" wx:if="{{mainSpot}}">
+            <view class="cc-bg" style="background: {{mainSpot.color}}"></view>
+            <view class="cc-content">
+              <view class="cc-left">
+                <view class="cc-icon-wrap">
+                  <view class="cc-glow" style="background: {{mainSpot.color}}66"></view>
+                  <text class="cc-icon">{{mainSpot.done ? '✅' : mainSpot.icon}}</text>
+                </view>
+              </view>
+              <view class="cc-right">
+                <text class="cc-name">{{mainSpot.name}}</text>
+                <text class="cc-alias">{{mainSpot.alias}}</text>
+                <view class="cc-tags">
+                  <text class="cc-tag">{{mainSpot.testIcon}} {{mainSpot.testName}}</text>
+                  <text class="cc-tag-arrow">点击进入 →</text>
+                </view>
+              </view>
+            </view>
+          </view>
+
+          <!-- 下一站 -->
+          <view class="next-stop" wx:if="{{nextSpot && suggestedCount > 0}}" bindtap="onEnterSpot">
+            <view class="ns-arrow">⬇ 下一站</view>
+            <view class="ns-card">
+              <text class="ns-icon">{{nextSpot.icon}}</text>
+              <view class="ns-info">
+                <text class="ns-name">{{nextSpot.name}}</text>
+                <text class="ns-test">{{nextSpot.testIcon}} {{nextSpot.testName}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 已完成景点（横向滚动快速入口） -->
+          <view class="done-zone" wx:if="{{doneSpots.length > 0}}">
+            <text class="dz-title">✅ 已探索 · 可重温</text>
+            <scroll-view scroll-x class="dz-scroll" enhanced show-scrollbar="{{false}}">
+              <view class="dz-item" wx:for="{{doneSpots}}" wx:key="id" data-id="{{item.id}}" bindtap="onDoneSpotTap">
+                <view class="dz-dot" style="background:{{item.color}}"><text class="dz-icon">{{item.icon}}</text></view>
+                <text class="dz-name">{{item.name}}</text>
+              </view>
+            </scroll-view>
+          </view>
+
+        </view>
+
+        <!-- ========================================================= -->
+        <!-- 下半：游戏风格小地图（纯CSS） -->
+        <!-- ========================================================= -->
+        <view class="lower-half">
+          <view class="mm-header">
+            <text class="mmh-title">🗺️ 全景探索</text>
+            <text class="mmh-hint">点击已解锁的景点可重温</text>
+          </view>
+
+          <view class="minimap-box">
+
+            <!-- 路径线 -->
+            <view class="mm-lines">
+              <view class="mm-line"
+                    wx:for="{{miniPathLines}}" wx:key="index"
+                    style="left: {{item.left}}; top: {{item.top}}; width: {{item.width}}rpx; transform: rotate({{item.angle}}deg);">
+              </view>
+            </view>
+
+            <!-- 背景装饰 -->
+            <view class="mm-bg-deco">
+              <view class="mm-deco-dots"></view>
+            </view>
+
+            <!-- 景点标记 -->
+            <view class="mm-spots-layer">
+              <view class="mm-spot {{item.done ? 'ms-done' : ''}} {{item.isCurrent ? 'ms-current' : ''}} {{item.canClick ? 'ms-ok' : 'ms-locked'}}"
+                    wx:for="{{miniSpots}}" wx:key="id"
+                    style="left: {{item.x}}%; top: {{item.y}}%;"
+                    data-id="{{item.id}}"
+                    bindtap="onMiniSpotTap">
+
+                <view class="ms-dot" style="background: {{item.canClick ? item.color : '#bbb'}}; box-shadow: 0 0 {{item.isCurrent ? '30' : item.canClick ? '8' : '0'}}rpx {{item.canClick ? item.color + '88' : 'transparent'}}; width: {{item.isCurrent ? '54' : item.done ? '36' : '34'}}rpx; height: {{item.isCurrent ? '54' : item.done ? '36' : '34'}}rpx; border: {{item.isCurrent ? '3rpx solid rgba(255,255,255,0.6)' : 'none'}};">
+                  <text class="ms-icon" style="font-size: {{item.isCurrent ? '28' : '18'}}rpx">{{item.done ? '✅' : item.icon}}</text>
+                </view>
+                <text class="ms-name {{item.isCurrent ? 'ms-name-cur' : ''}}">{{item.name}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 底部引导 -->
+          <view class="mm-footer">
+            <text class="mm-footer-text">{{guideHint}}</text>
+          </view>
+        </view>
+
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- 副本地图 -->
+  <!-- ============================================================ -->
+  <view class="map-phase" wx:if="{{phase === 'dungeon'}}">
+    <scroll-view scroll-y class="map-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="dungeon-container">
+        <view class="dungeon-bg"></view>
+        <view class="dungeon-header"><text class="dungeon-title">🕳️ {{dungeonParent.name}} · 内景</text><text class="dungeon-sub">洞天秘境 · 每个都值得一探</text></view>
+        <view class="paths-layer">
+          <view class="path-line line-dungeon" wx:for="{{dungeonPaths}}" wx:key="index" style="left:{{item.left}};top:{{item.top}};width:{{item.width}}rpx;transform:rotate({{item.angle}}deg);"></view>
+        </view>
+        <view class="spots-layer">
+          <view class="map-spot dungeon-sub-spot spot-{{item.spotStatus||'future'}}" wx:for="{{dungeonSpots}}" wx:key="id" style="left:{{item.x}}%;top:{{item.y}}%;" data-id="{{item.id}}" bindtap="onDungeonSpotTap">
+            <view class="spot-dot" style="background:{{item.color}};box-shadow:0 0 {{item.spotStatus==='current'?'30':'8'}}rpx {{item.color}}66;width:{{item.spotStatus==='current'?'78':'56'}}rpx;height:{{item.spotStatus==='current'?'78':'56'}}rpx;"><text class="sd-icon" style="font-size:{{item.spotStatus==='current'?'34':'24'}}rpx">{{item.icon}}</text></view>
+            <view class="spot-label"><text class="sl-name" style="color:{{item.spotStatus==='current'?'#e0f0e0':'#c0d8c8'}}">{{item.name}}</text></view>
+          </view>
+        </view>
+        <view class="dungeon-exit-btn" bindtap="exitDungeon"><text>☀️ 返回地表</text></view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- 景点详情 -->
+  <!-- ============================================================ -->
+  <view class="spot-phase" wx:if="{{phase === 'spot' && currentSpot}}">
+    <view class="spot-back" bindtap="backToMap">← 返回</view>
+    <view class="spot-scene" style="background:linear-gradient(180deg,{{currentSpot.color}}22 0%,{{currentSpot.color}}11 60%,{{currentSpot.color}}22 100%)">
+      <view class="scene-aura"></view>
+      <view class="scene-icon-wrap"><view class="scene-icon-glow" style="background:{{currentSpot.color}}44;box-shadow:0 0 80rpx {{currentSpot.color}}66"></view><text class="scene-icon">{{currentSpot.icon}}</text></view>
+      <view class="scene-info">
+        <text class="scene-name">{{currentSpot.name}}</text>
+        <text class="scene-alias">{{currentSpot.alias}}</text>
+        <text class="scene-zone-tag" wx:if="{{!currentSpot.isDungeonItem}}">{{currentSpot.zoneName}}</text>
+        <text class="scene-desc">{{currentSpot.desc}}</text>
+      </view>
+      <!-- 故事插图 -->
+      <image class="scene-image" wx:if="{{storyImageResolved}}" src="{{storyImageResolved}}" mode="aspectFill"></image>
+      <view class="scene-story"><view class="story-divider">📜 传说</view><text class="story-text">{{currentSpot.story}}</text></view>
+      <view class="poetry-scroll" wx:if="{{currentSpot.id==='tingyun_tai'&&currentSpot.poetry}}">
+        <view class="poetry-header"><text class="poetry-icon">📜</text><view class="poetry-title-wrap"><text class="poetry-title">{{currentSpot.poetry.title}}</text><text class="poetry-author">{{currentSpot.poetry.author}}</text></view></view>
+        <text class="poetry-preface">{{currentSpot.poetry.preface}}</text><view class="poetry-divider"></view>
+        <view class="poetry-body"><text class="poetry-line" wx:for="{{currentSpot.poetry.verses}}" wx:key="*this" wx:if="{{item}}">{{item}}</text></view>
+      </view>
+      <view class="monkey-zone" wx:if="{{currentSpot.id==='hou_gu'}}">
+        <view class="monkey-banner"><text class="monkey-banner-icon">🐒🐵🙈🙉🙊</text><text class="monkey-banner-text">前方有猴群出没！</text></view>
+        <view class="monkey-cards"><view class="monkey-card" wx:for="{{monkeyTypes}}" wx:key="id"><text class="monkey-card-emoji">{{item.emoji}}</text><text class="monkey-card-label">{{item.label}}</text></view></view>
+      </view>
+      <view class="scene-test-card" style="border-color:{{currentSpot.color}}55;background:{{currentSpot.color}}11">
+        <view class="test-card-header"><text class="test-card-icon">{{currentSpot.testIcon}}</text><text class="test-card-name">{{currentSpot.testName}}</text></view>
+        <text class="test-card-brief">{{currentSpot.testBrief}}</text>
+        <button class="test-enter-btn" style="background:{{currentSpot.color}}" bindtap="enterTest">进入测试 →</button>
+      </view>
+    </view>
+  </view>
+
+</view>

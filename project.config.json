@@ -1,0 +1,54 @@
+{
+  "description": "茅山趣测 - AI趣味心理测试小程序。基于茅山文化的五行人格、MBTI、压力状态测试。免费结果+AI深度分析。仅供娱乐参考。",
+  "packOptions": {
+    "ignore": [
+      {
+        "value": ".codebuddy",
+        "type": "folder"
+      }
+    ],
+    "include": []
+  },
+  "setting": {
+    "bundle": false,
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmRelationList": [],
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "miniprogramRoot": "",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "compileType": "miniprogram",
+  "libVersion": "3.16.1",
+  "appid": "wx089d2b3a0f8ebb6e",
+  "projectname": "茅山趣测",
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "simulatorPluginLibVersion": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "maoshan-autotest",
+  "version": "1.0.0",
+  "description": "茅山趣测 · 全自动回归跑测系统 —— 模拟用户完整旅程，多轮跑测发现Bug",
+  "private": true,
+  "scripts": {
+    "test": "node cli-runner.js",
+    "test:1": "node cli-runner.js --rounds=1",
+    "test:3": "node cli-runner.js --rounds=3",
+    "test:5": "node cli-runner.js --rounds=5",
+    "test:10": "node cli-runner.js --rounds=10",
+    "report": "node report.js"
+  },
+  "dependencies": {
+    "miniprogram-automator": "^0.12.1",
+    "chalk": "^4.1.2"
+  }
+}

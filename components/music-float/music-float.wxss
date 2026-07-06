@@ -1,0 +1,86 @@
+.music-float {
+  position: fixed;
+  right: 30rpx;
+  bottom: 130rpx;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4rpx 20rpx rgba(42, 61, 53, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2A3D35 0%, #3D5A4A 50%, #2A3D35 100%);
+}
+.music-float:active { transform: scale(0.92) !important; }
+
+/* 播放状态 — 暖金光环 */
+.music-float.active {
+  background: linear-gradient(135deg, #3D5A4A 0%, #4A6A5A 50%, #3D5A4A 100%);
+  box-shadow: 0 4rpx 24rpx rgba(201, 169, 110, 0.25), 0 0 0 4rpx rgba(201, 169, 110, 0.08);
+}
+
+/* 静音状态 — 灰暗 */
+.music-float.muted {
+  background: rgba(80, 80, 80, 0.5);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 音符图标 */
+.mf-icon {
+  font-size: 40rpx;
+  z-index: 3;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+.music-float.active .mf-icon {
+  color: #E8C17A;
+  text-shadow: 0 0 16rpx rgba(232, 193, 122, 0.5);
+}
+.music-float.muted .mf-icon {
+  color: rgba(180, 180, 180, 0.45);
+  text-shadow: none;
+}
+
+/* 播放时音符旋转 */
+.mf-icon.spinning {
+  animation: noteSpin 3s linear infinite;
+}
+@keyframes noteSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 外圈光晕环 */
+.mf-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2rpx solid transparent;
+  pointer-events: none;
+  transition: all 0.6s ease;
+}
+.music-float.active .mf-ring {
+  border-color: rgba(232, 193, 122, 0.2);
+  animation: ringPulse 2s ease-out infinite;
+}
+.music-float.active .mf-ring-2 {
+  border-color: rgba(232, 193, 122, 0.1);
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
+  animation: ringPulse 2s ease-out 0.6s infinite;
+}
+.music-float.muted .mf-ring {
+  border-color: transparent;
+  animation: none;
+}
+
+@keyframes ringPulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.3); }
+}

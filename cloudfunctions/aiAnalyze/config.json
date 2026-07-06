@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "env": {
+    "AI_API_KEY": "",
+    "AI_API_URL": "https://api.hunyuan.cloud.tencent.com/v1/chat/completions",
+    "AI_MODEL": "hunyuan-lite",
+    "AI_MAX_TOKENS": "600"
+  }
+}

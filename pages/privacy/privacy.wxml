@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="page-back" bindtap="goBack">← 返回</view>
+  <text class="page-title">隐私政策</text>
+  <view class="tao-divider"></view>
+
+  <view class="section">
+    <text class="stitle">一、信息收集</text>
+    <text class="sbody">茅山趣测不会收集您的个人身份信息。所有测试数据仅在本地设备处理，不会上传至服务器。我们仅通过微信授权获取您的昵称和头像，用于显示测试结果和分享功能。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">二、信息使用</text>
+    <text class="sbody">我们收集的信息仅用于：1）展示您的测试结果；2）优化产品体验；3）处理分享邀请。我们不会将您的信息出售、转让或提供给第三方。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">三、数据存储</text>
+    <text class="sbody">您的测试记录保存在本地缓存中。清除小程序缓存将导致历史记录丢失。如需删除数据，可在微信「发现-小程序」中删除本小程序。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">四、广告与第三方服务</text>
+    <text class="sbody">本小程序可能展示腾讯广告。广告服务商可能通过设备标识符提供个性化广告，具体请参阅微信隐私保护指引。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">五、未成年人保护</text>
+    <text class="sbody">未满14周岁的未成年人应在监护人指导下使用本小程序。我们不会故意收集未成年人的个人信息。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">六、联系我们</text>
+    <text class="sbody">如有隐私相关问题，请发送邮件至：{{legal.contact.email}}</text>
+  </view>
+
+  <view class="footer-bar">更新日期：{{legal.privacy.lastUpdated}} · 版本 {{legal.privacy.version}}</view>
+</view>

@@ -1,0 +1,15 @@
+<view class="bottom-nav">
+  <view class="bn-safe">
+    <view
+      class="bn-item {{item.key === current ? 'active' : ''}}"
+      wx:for="{{tabs}}" wx:key="key"
+      data-key="{{item.key}}"
+      bindtap="onTap">
+      <text class="bn-icon">{{item.icon}}</text>
+      <text class="bn-label">{{item.label}}</text>
+      <view class="bn-indicator" wx:if="{{item.key === current}}"></view>
+    </view>
+  </view>
+  <!-- iPhone 底部安全区 -->
+  <view class="bn-area"></view>
+</view>

@@ -1,0 +1,180 @@
+<view class="container {{themeClass}} page-enter">
+
+  <!-- ===== 欢迎引导遮罩（每日首次）===== -->
+  <view class="welcome-overlay {{showWelcome ? 'show' : ''}}" wx:if="{{showWelcome && welcomeMsg}}" bindtap="dismissWelcome">
+    <image class="wc-bg-image" src="/images/仙山.jpg" mode="aspectFill"></image>
+    <view class="wc-bg-overlay"></view>
+    <image class="wc-cloud" src="/images/小祥云.jpg" mode="aspectFit"></image>
+    <view class="welcome-card" catchtap="">
+      <view class="wc-card-inner">
+        <text class="wc-greeting">{{welcomeMsg.greeting}}</text>
+        <view class="wc-divider"></view>
+        <view class="wc-lines">
+          <text class="wc-line" wx:for="{{welcomeMsg.lines}}" wx:key="*this">{{item}}</text>
+        </view>
+        <text class="wc-disclaimer">{{welcomeMsg.disclaimer}}</text>
+        <view class="wc-btn" bindtap="dismissWelcome">
+          <text>☯️ 随缘一测</text>
+        </view>
+      </view>
+      <text class="wc-skip">轻触空白处进入</text>
+    </view>
+  </view>
+
+  <!-- ===== 背景仙山 ===== -->
+  <image class="bg-mountain" src="/images/仙山.jpg" mode="aspectFill"></image>
+  <view class="bg-mountain-overlay"></view>
+
+  <!-- ===== 顶部品牌 ===== -->
+  <view class="header-section">
+    <image class="header-logo" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
+    <text class="header-title">茅山趣测</text>
+    <text class="header-sub">遇事不决 · 茅山一测</text>
+  </view>
+
+  <!-- ===== 核心：引导语 + 随缘一测 ===== -->
+  <view class="core-section">
+    <text class="core-welcome">欢迎来到茅山趣测</text>
+    <view class="core-divider"></view>
+    <text class="core-line">每个人心里都藏着</text>
+    <text class="core-line">一个不为人知的小秘密</text>
+    <view class="core-spacer"></view>
+    <text class="core-hint">往往不经意的一次，</text>
+    <text class="core-hint">也许就是最准的那一次。</text>
+    <view class="core-btn-wrap" bindtap="entryTest">
+      <view class="core-btn">
+        <text class="core-btn-text">随缘一测</text>
+      </view>
+      <view class="taiji-ring">
+        <text class="taiji-icon">☯</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 底部工具条（4项）===== -->
+  <view class="bottom-bar">
+    <view class="bb-item bb-main" bindtap="showQuotaInfo">
+      <text class="bb-icon">🎯</text>
+      <text class="bb-label">{{quotaTotal}}次</text>
+      <text class="bb-dot" wx:if="{{!fortuneClaimed && fortune}}"></text>
+    </view>
+    <view class="bb-item bb-main" bindtap="goAlbum">
+      <text class="bb-icon">📖</text>
+      <text class="bb-label">图鉴</text>
+    </view>
+    <view class="bb-item bb-main" bindtap="goGuide">
+      <text class="bb-icon">🗺️</text>
+      <text class="bb-label">探索</text>
+    </view>
+    <view class="bb-item bb-main" bindtap="goAbout">
+      <text class="bb-icon">☯️</text>
+      <text class="bb-label">我的</text>
+    </view>
+  </view>
+
+  <!-- ===== 底部法律信息 ===== -->
+  <view class="bottom-legal">
+    <text class="disclaimer-text">本服务为趣味娱乐工具，所有结果仅供娱乐参考</text>
+    <text class="icp-text" wx:if="{{legal.icp.number}}">{{legal.icp.number}}</text>
+  </view>
+
+  <!-- ===== 次数用完弹窗 ===== -->
+  <view class="quota-mask" wx:if="{{showQuotaModal}}">
+    <view class="quota-card">
+      <view class="quota-header"><text class="quota-icon">🌙</text><text class="quota-title">次数用完了~</text></view>
+      <view class="quota-body">
+        <view class="quota-option quota-option-wait">
+          <text class="qo-icon">⏳</text>
+          <view class="qo-text-group">
+            <text class="qo-label">小憩片刻</text>
+            <text class="qo-desc">30分钟恢复1次 · 上限5次</text>
+            <text class="qo-countdown" wx:if="{{quotaNextRecover}}">{{quotaNextRecover}} 后恢复</text>
+          </view>
+        </view>
+        <view class="quota-option quota-option-ad" bindtap="onWatchAd">
+          <text class="qo-icon">📺</text>
+          <view class="qo-text-group"><text class="qo-label">看个广告 → 立刻爽 2 次</text><text class="qo-desc">今日还可看 {{quotaAdRemaining}} 次</text></view>
+          <text class="qo-badge">🔥推荐</text>
+        </view>
+        <view class="quota-option quota-option-share">
+          <text class="qo-icon">💬</text>
+          <view class="qo-text-group"><text class="qo-label">分享好友 → 一起测更欢乐 +1次</text><text class="qo-desc">今日还可邀 {{quotaShareRemaining}} 位</text></view>
+          <button class="qo-share-btn" open-type="share">分享</button>
+        </view>
+      </view>
+      <view class="quota-footer">
+        <view class="quota-btn quota-btn-secondary" bindtap="onWaitLater">等一下来</view>
+        <view class="quota-btn quota-btn-primary" bindtap="onWatchAd">立刻续命🔥</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 隐私协议弹窗 ===== -->
+  <view class="modal-overlay" wx:if="{{showPrivacyModal}}">
+    <view class="modal-card">
+      <text class="modal-icon">☯️</text>
+      <text class="modal-title">欢迎来到茅山趣测</text>
+      <view class="tao-divider"></view>
+      <text class="modal-desc">茅山趣测是一款趣味测试工具，所有结果仅供娱乐参考。</text>
+      <text class="modal-desc">使用前请阅读并同意：</text>
+      <view class="modal-links">
+        <text class="modal-link" bindtap="goTermsPage">📜 用户协议</text>
+        <text class="modal-link" bindtap="goPrivacyPage">🔒 隐私政策</text>
+      </view>
+      <view class="btn-gold modal-confirm" bindtap="acceptPrivacy">同意并继续</view>
+      <text class="modal-hint">点击即表示您已阅读并同意上述条款</text>
+    </view>
+  </view>
+
+  <!-- ===== 新手引导弹窗 ===== -->
+  <view class="tutorial-overlay {{showTutorial ? 'show' : ''}}" wx:if="{{showTutorial}}" bindtap="closeTutorial">
+    <view class="tutorial-card" catchtap="">
+      <view class="tut-header">
+        <text class="tut-title">☯️ 怎么玩？</text>
+        <text class="tut-sub">3步上手，轻松有趣</text>
+      </view>
+
+      <view class="tut-steps">
+        <!-- 步骤1 -->
+        <view class="tut-step {{tutStep === 0 ? 'active' : ''}}">
+          <view class="tut-icon-wrap"><text class="tut-icon-large">🎯</text></view>
+          <text class="tut-step-title">第一步 · 随缘一测</text>
+          <text class="tut-step-desc">点击主页的<text class="tut-highlight">「随缘一测」</text>按钮，进入茅山探索之旅</text>
+        </view>
+        <!-- 步骤2 -->
+        <view class="tut-step {{tutStep === 1 ? 'active' : ''}}">
+          <view class="tut-icon-wrap"><text class="tut-icon-large">🗺️</text></view>
+          <text class="tut-step-title">第二步 · 关卡探索</text>
+          <text class="tut-step-desc">按关卡顺序探索茅山各景点，每个景点都有<text class="tut-highlight">传说故事</text>和<text class="tut-highlight">趣味测试</text></text>
+        </view>
+        <!-- 步骤3 -->
+        <view class="tut-step {{tutStep === 2 ? 'active' : ''}}">
+          <view class="tut-icon-wrap"><text class="tut-icon-large">✨</text></view>
+          <text class="tut-step-title">第三步 · 解锁发现</text>
+          <text class="tut-step-desc">进入测试答题，查看专属结果。分享好友PK，<text class="tut-highlight">比比谁更懂你</text></text>
+        </view>
+      </view>
+
+      <!-- 步骤指示点 -->
+      <view class="tut-dots">
+        <view class="tut-dot {{tutStep === 0 ? 'active' : ''}}" data-step="0" catchtap="switchTutStep"></view>
+        <view class="tut-dot {{tutStep === 1 ? 'active' : ''}}" data-step="1" catchtap="switchTutStep"></view>
+        <view class="tut-dot {{tutStep === 2 ? 'active' : ''}}" data-step="2" catchtap="switchTutStep"></view>
+      </view>
+
+      <view class="tut-actions">
+        <view class="tut-btn-prev" wx:if="{{tutStep > 0}}" catchtap="prevTutStep">← 上一步</view>
+        <view class="tut-btn-next" wx:if="{{tutStep < 2}}" catchtap="nextTutStep">下一步 →</view>
+        <view class="tut-btn-done" wx:if="{{tutStep === 2}}" catchtap="closeTutorial">☯️ 开始探索</view>
+      </view>
+
+      <text class="tut-skip" catchtap="closeTutorial">跳过引导，直接开始</text>
+    </view>
+  </view>
+
+  <!-- ===== 浮动帮助按钮（非首次访问时显示） ===== -->
+  <view class="help-float {{tutorialSeen ? 'show' : ''}}" bindtap="openTutorial">
+    <text class="help-float-icon">?</text>
+  </view>
+
+</view>

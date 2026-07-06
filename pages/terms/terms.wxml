@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="page-back" bindtap="goBack">← 返回</view>
+  <text class="page-title">用户协议</text>
+  <view class="tao-divider"></view>
+
+  <view class="section">
+    <text class="stitle">一、服务说明</text>
+    <text class="sbody">茅山趣测是一款趣味心理测试工具。所有测试结果仅供娱乐参考，不构成专业心理评估、医学诊断或任何形式的建议。使用者应理性看待测试结果。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">二、用户行为</text>
+    <text class="sbody">您同意：1）不利用本小程序从事违法违规活动；2）不恶意刷量、攻击系统；3）不传播虚假信息。违反者我们将保留追究权利。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">三、知识产权</text>
+    <text class="sbody">本小程序的代码、设计、文案、题库等知识产权归 {{legal.copyright.company}} 所有。未经许可不得复制、修改或二次分发。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">四、免责声明</text>
+    <text class="sbody">1）测试结果基于趣味算法生成，不具备科学依据；2）AI分析内容由预设模板生成，不构成专业建议；3）因使用本小程序产生的任何后果，开发者不承担责任；4）如感心理不适，请寻求专业心理咨询。</text>
+  </view>
+
+  <view class="section">
+    <text class="stitle">五、协议变更</text>
+    <text class="sbody">我们可能适时修改本协议。修改后的协议一经发布即生效。如您不同意修改，请停止使用本小程序。</text>
+  </view>
+
+  <view class="footer-bar">更新日期：{{legal.terms.lastUpdated}} · 版本 {{legal.terms.version}}</view>
+</view>

@@ -1,0 +1,61 @@
+<view class="container {{themeClass}}" style="padding-top: {{statusBarHeight + 12}}px;">
+  <!-- 返回 -->
+  <view class="page-back" bindtap="goBack">← 返回首页</view>
+
+  <view class="dungeon-header">
+    <text class="dungeon-title">🗡️ 秘境副本</text>
+    <text class="dungeon-sub">主线通关后，这里还有更多精彩</text>
+  </view>
+
+  <!-- 四大副本卡片 -->
+  <view class="dungeon-list">
+    <view class="dungeon-card {{d.unlocked ? 'unlocked' : 'locked'}}"
+          wx:for="{{dungeons}}" wx:key="id"
+          bindtap="onDungeonTap" data-id="{{d.id}}">
+      <view class="dc-left">
+        <text class="dc-icon">{{d.icon}}</text>
+      </view>
+      <view class="dc-mid">
+        <text class="dc-name">{{d.name}}</text>
+        <text class="dc-desc">{{d.desc}}</text>
+        <view class="dc-tags">
+          <text class="dc-tag" wx:for="{{d.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+      <view class="dc-right">
+        <text class="dc-status" wx:if="{{d.unlocked}}">🔓 已解锁</text>
+        <text class="dc-status locked" wx:else>🔒 第{{d.unlockLevel}}关后</text>
+        <text class="dc-master">{{d.master}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 镇山四宝 -->
+  <view class="treasure-section">
+    <text class="treasure-title">👑 茅山镇山四宝</text>
+    <text class="treasure-sub">宋代御赐宝物，集齐可解锁隐藏内容</text>
+    <view class="treasure-grid">
+      <view class="treasure-item" wx:for="{{treasures}}" wx:key="id">
+        <text class="tr-icon">{{item.icon}}</text>
+        <text class="tr-name">{{item.name}}</text>
+        <text class="tr-desc">{{item.desc}}</text>
+        <text class="tr-origin">🗺️ {{item.origin}}</text>
+        <text class="tr-rarity {{item.rarity}}">{{item.rarity}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 炼丹配方 -->
+  <view class="recipe-section" wx:if="{{showRecipes}}">
+    <text class="recipe-title">🧪 丹药配方（五行相生）</text>
+    <view class="recipe-list">
+      <view class="recipe-item" wx:for="{{recipes}}" wx:key="id">
+        <text class="rp-name">{{item.name}}</text>
+        <text class="rp-ingredients">{{item.ingredients.join(' + ')}}</text>
+        <text class="rp-effect">{{item.effect}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view style="height: 60rpx;"></view>
+</view>

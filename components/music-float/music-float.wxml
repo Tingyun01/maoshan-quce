@@ -1,0 +1,5 @@
+<view class="music-float {{isMuted ? 'muted' : 'active'}}" style="transform: translate({{x}}px, {{y}}px);" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" catchtap="onTap">
+  <view class="mf-ring"></view>
+  <view class="mf-ring mf-ring-2"></view>
+  <text class="mf-icon {{isMuted ? '' : 'spinning'}}">♫</text>
+</view>

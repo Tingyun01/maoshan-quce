@@ -1,0 +1,9 @@
+{
+  "name": "uploadImage",
+  "version": "1.0.0",
+  "description": "管理员端图片上传到云存储",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

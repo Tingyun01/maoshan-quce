@@ -1,0 +1,1 @@
+<canvas type="2d" id="shareCardCanvas" style="width:540px;height:720px;position:fixed;top:-9999px;left:-9999px;"></canvas>

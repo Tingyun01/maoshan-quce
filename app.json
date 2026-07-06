@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/quiz/quiz",
+    "pages/result/result",
+    "pages/adventure/adventure",
+    "pages/guide/guide",
+    "pages/album/album",
+    "pages/journey/journey",
+    "pages/dungeon/dungeon",
+    "pages/admin-images/admin-images",
+    "pages/about/about",
+    "pages/privacy/privacy",
+    "pages/terms/terms"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#2A3D35",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#2A3D35",
+    "backgroundTextStyle": "dark"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

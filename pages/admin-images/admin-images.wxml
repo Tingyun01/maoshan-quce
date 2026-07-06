@@ -1,0 +1,69 @@
+<view class="admin-page">
+  <!-- 顶部 -->
+  <view class="top-bar">
+    <text class="back-btn" bindtap="goBack">← 返回</text>
+    <text class="title">🖼️ 云存储图片检测</text>
+    <text class="placeholder"></text>
+  </view>
+
+  <!-- 统计区 -->
+  <view class="stats-bar">
+    <view class="stat-item">
+      <text class="stat-num">{{totalCount}}</text>
+      <text class="stat-label">总计</text>
+    </view>
+    <view class="stat-item ok">
+      <text class="stat-num">{{existCount}}</text>
+      <text class="stat-label">✅ 正常</text>
+    </view>
+    <view class="stat-item err" wx:if="{{missingCount > 0}}">
+      <text class="stat-num">{{missingCount}}</text>
+      <text class="stat-label">❌ 缺失</text>
+    </view>
+    <view class="stat-item ok" wx:if="{{missingCount === 0 && !checking}}">
+      <text class="stat-num">0</text>
+      <text class="stat-label">🎉 完美</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-row">
+    <button class="btn small" bindtap="reCheck" disabled="{{checking}}">{{checking ? '检测中...' : '🔄 重新检测'}}</button>
+    <button class="btn small" bindtap="toggleFilter">{{showMissingOnly ? '📋 查看全部' : '⚠️ 只看缺失'}}</button>
+    <button class="btn small" bindtap="copyMissingList" wx:if="{{missingCount > 0}}">📋 复制清单</button>
+  </view>
+  <view class="action-row">
+    <button class="btn primary" bindtap="uploadMissing" wx:if="{{missingCount > 0}}">📤 上传缺失图片（选文件）</button>
+    <button class="btn" bindtap="pickAndUpload">📤 上传任意图片</button>
+    <button class="btn" bindtap="goUpload">💡 如何上传</button>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{checking}}">
+    <text class="loading-text">⏳ 正在逐批检测云存储文件...</text>
+    <text class="loading-sub">共 {{allCheckPaths ? '' : ''}}张，请稍候</text>
+  </view>
+
+  <!-- 结果列表 -->
+  <scroll-view scroll-y class="result-list" wx:if="{{!checking}}">
+    <block wx:for="{{showMissingOnly ? missingList : results}}" wx:key="fileName">
+      <view class="image-row {{item.exists ? 'ok' : 'missing'}}">
+        <view class="row-left">
+          <text class="row-status">{{item.exists ? '✅' : '❌'}}</text>
+          <view class="row-info">
+            <text class="row-name">{{item.fileName}}</text>
+            <text class="row-use">{{item.uses}}</text>
+          </view>
+        </view>
+        <view class="row-right">
+          <text class="row-err" wx:if="{{!item.exists}}">{{item.errMsg || '文件不存在'}}</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view class="empty-box" wx:if="{{results.length === 0}}">
+      <text class="empty-text">没有检测到图片配置</text>
+    </view>
+  </scroll-view>
+</view>

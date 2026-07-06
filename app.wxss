@@ -1,0 +1,279 @@
+/**
+ * 茅山趣测 全局样式 v5.0 — 青绿山水画风
+ * 色调：深山青绿 + 古纸暖白 + 道观金 + 朱砂红
+ * 灵感：青绿山水 · 道法自然 · 丹青墨韵
+ */
+page {
+  /* 青绿山色系 — 深山墨绿底 */
+  --ink-light: #F5F0E6;    /* 古纸牙白（卡片/弹窗底色） */
+  --ink: #2A3D35;          /* 深山墨绿（主背景） */
+  --ink-dark: #1A2D25;     /* 更深山色 */
+  --charcoal: #2D2418;     /* 浓墨（最深文字） */
+  --charcoal-light: #5A4A3A;
+
+  /* 道观金（主强调色） */
+  --gold: #C9A96E;
+  --accent: var(--gold);
+  --gold-light: rgba(201, 169, 110, 0.12);
+  --gold-glow: rgba(201, 169, 110, 0.22);
+
+  /* 朱砂红（次要强调） */
+  --cinnabar: #A0522D;
+  --cinnabar-light: rgba(160, 82, 45, 0.08);
+
+  /* 文字色 */
+  --text-primary: #2D2418;
+  --text-secondary: #5A4A3A;
+  --text-muted: #8A7A6A;
+  --text-dim: #AA9A8A;
+
+  /* 功能色 */
+  --success: #7A9E7A;
+  --danger: #A0522D;
+
+  /* 圆角 */
+  --radius-sm: 12rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 28rpx;
+  --radius-round: 999rpx;
+
+  background: linear-gradient(175deg, #3D5E4E 0%, #2A3D35 40%, #1A2D25 100%);
+  font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-primary);
+  font-size: 28rpx;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 暗色主题（保留但默认不用） */
+.dark-theme {
+  --ink-light: #0A0E17;
+  --ink: #121824;
+  --ink-dark: #1A2230;
+  --charcoal: #C8B8A8;
+  --text-primary: #FAF6F2;
+  --text-secondary: #E0D8D0;
+  --text-muted: #C8B8A8;
+  --text-dim: #8A7A6A;
+  background: var(--ink-light);
+  color: var(--text-primary);
+}
+
+/* 通用按钮 */
+.btn-gold {
+  padding: 22rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--gold), #8B7355);
+  color: #FFF;
+  transition: all 0.2s;
+}
+.btn-gold:active { opacity: 0.85; transform: scale(0.97); }
+
+/* 全局返回按钮 — 大触控区域 + 安全间距 */
+.page-back {
+  display: inline-flex; align-items: center; gap: 6rpx;
+  font-size: 26rpx; font-weight: 600;
+  color: rgba(200,210,185,0.8);
+  padding: 14rpx 28rpx;
+  background: rgba(255,255,255,0.04);
+  border: 1rpx solid rgba(255,255,255,0.06);
+  border-radius: 36rpx;
+  min-width: 110rpx; justify-content: center;
+  margin: 8rpx 0;
+}
+.page-back:active { opacity: 0.6; }
+
+/* 弹窗基底 */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-card {
+  width: 580rpx;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 44rpx 36rpx;
+  background: var(--ink-light);
+  border-radius: var(--radius-lg);
+  border: 1rpx solid rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* 滚动条隐藏 */
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* 动画 */
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 页面切换淡入 */
+.page-enter { animation: pageEnter 0.3s ease both; }
+@keyframes pageEnter { from { opacity: 0; transform: translateY(16rpx); } to { opacity: 1; transform: translateY(0); } }
+
+/* 画卷展开动画 */
+.unfold-anim { animation: unfoldAnim 0.5s ease both; }
+@keyframes unfoldAnim {
+  from { clip-path: inset(0 50% 0 50%); opacity: 0; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+/* 闪烁放大 */
+.flash-scale { animation: flashScale 0.4s ease both; }
+@keyframes flashScale {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 向下飞出 */
+.fly-down { animation: flyDown 0.3s ease both; }
+@keyframes flyDown {
+  from { transform: translateY(-40rpx); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== v4 新增动效 ===== */
+
+/* 桃花球呼吸旋转 */
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.55; }
+  50% { transform: scale(1.18) rotate(12deg); opacity: 0.9; }
+}
+
+/* 花瓣轻盈漂浮 */
+@keyframes petalDrift {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
+  25% { transform: translateY(-24rpx) translateX(10rpx) rotate(25deg); opacity: 0.4; }
+  50% { transform: translateY(-8rpx) translateX(-8rpx) rotate(-15deg); opacity: 0.25; }
+  75% { transform: translateY(-30rpx) translateX(6rpx) rotate(35deg); opacity: 0.38; }
+  100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
+}
+
+/* 星光闪烁 */
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  40% { opacity: 0.6; transform: scale(1.1); }
+  60% { opacity: 0.3; transform: scale(0.8); }
+}
+
+/* 按钮呼吸光晕 */
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.35); }
+  50% { box-shadow: 0 0 0 18rpx rgba(201,169,110,0); }
+}
+
+/* 卡片依次弹入 */
+@keyframes cardPopIn {
+  from { opacity: 0; transform: translateY(36rpx) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 文字闪烁高亮 */
+@keyframes textShimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* ===== 好友邀请PK横幅 ===== */
+.invite-banner {
+  display: flex;
+  align-items: center;
+  margin: 12rpx 24rpx;
+  padding: 20rpx 24rpx;
+  background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(160,82,45,0.08));
+  border: 1rpx solid rgba(201,169,110,0.25);
+  border-radius: var(--radius-md);
+  animation: cardPopIn 0.4s ease-out;
+}
+.invite-icon {
+  font-size: 44rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.invite-texts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.invite-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4rpx;
+}
+.invite-desc {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+.invite-arrow {
+  font-size: 36rpx;
+  color: var(--gold);
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+/* ===== 好友PK对比结果 ===== */
+.pk-section {
+  margin: 24rpx;
+  padding: 24rpx;
+  background: var(--ink-light);
+  border-radius: var(--radius-md);
+  border: 1rpx solid rgba(201,169,110,0.2);
+  animation: cardPopIn 0.4s ease-out;
+}
+.pk-header {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.pk-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pk-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx;
+  border-radius: var(--radius-sm);
+}
+.pk-friend {
+  background: rgba(160,82,45,0.06);
+}
+.pk-me {
+  background: rgba(201,169,110,0.08);
+}
+.pk-label {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-bottom: 8rpx;
+}
+.pk-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--charcoal);
+  text-align: center;
+}
+.pk-rank {
+  font-size: 22rpx;
+  color: var(--gold);
+  margin-top: 6rpx;
+}
+.pk-vs {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--cinnabar);
+  margin: 0 16rpx;
+}
