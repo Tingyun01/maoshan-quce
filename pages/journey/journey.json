@@ -1,4 +1,8 @@
 {
   "navigationBarTitleText": "问道之旅",
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "bottom-nav": "/components/bottom-nav/bottom-nav",
+    "music-float": "/components/music-float/music-float"
+  }
 }

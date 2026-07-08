@@ -1,54 +1,158 @@
-<view class="container {{themeClass}} page-enter">
-  <!-- 老君背景装饰 -->
-  <image class="bg-laozun" src="/images/老君.jpg" mode="aspectFit"></image>
-
-  <!-- 返回 -->
-  <view class="page-back" bindtap="goBack">← 返回</view>
-
-  <!-- 品牌区 -->
-  <view class="brand-section">
-    <view class="brand-icon-wrap">
-      <image class="brand-logo" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
+<view class="container">
+  <!-- 顶部固定：品牌 + 设置 -->
+  <view class="header-fixed">
+    <view class="brand-section">
+      <view class="brand-logo-wrap">
+        <image class="brand-logo" src="/images/logo.png" mode="aspectFill"></image>
+      </view>
+      <text class="brand-name">茅山趣测</text>
+      <text class="brand-sub">沉浸式东方修仙主题趣味测试</text>
     </view>
-    <text class="brand-name">茅山趣测</text>
-    <text class="brand-sub">MaoShan QuCe</text>
-    <view class="tao-divider"></view>
-    <text class="brand-desc">茅山趣测——沉浸式道教文化趣味测试。涵盖心理测试、性格测试、MBTI人格分析、前世今生、守护神兽、五行运势、每日道签等13种玩法。遇事不决·茅山一测，探索你的隐藏天赋！</text>
+    
+    <view class="settings-list">
+      <view class="settings-item" bindtap="toggleMusic">
+        <view class="si-left">
+          <text class="si-icon">🔈</text>
+          <text class="si-text">{{isMuted ? '音乐已关' : '音乐已开'}}</text>
+        </view>
+        <text class="si-right">切换</text>
+      </view>
+      <view class="settings-item" bindtap="goPrivacy">
+        <view class="si-left">
+          <text class="si-icon">🔒</text>
+          <text class="si-text">隐私政策</text>
+        </view>
+        <text class="si-arrow">›</text>
+      </view>
+      <view class="settings-item" bindtap="goTerms">
+        <view class="si-left">
+          <text class="si-icon">📜</text>
+          <text class="si-text">用户服务协议</text>
+        </view>
+        <text class="si-arrow">›</text>
+      </view>
+      <view class="settings-item" bindtap="goChangelog">
+        <view class="si-left">
+          <text class="si-icon">📋</text>
+          <text class="si-text">版本更新</text>
+        </view>
+        <text class="si-arrow">›</text>
+      </view>
+    </view>
   </view>
 
-  <!-- 功能入口 -->
-  <view class="menu-list">
-    <view class="menu-item" bindtap="toggleMute">
-      <text class="menu-icon">{{audioMuted ? '🔇' : '🔊'}}</text>
-      <text class="menu-text">{{audioMuted ? '音效已关' : '音效已开'}}</text>
-      <text class="menu-arrow">切换</text>
+  <!-- 中间滚动：茅山文化内容（窄窗口） -->
+  <scroll-view class="scroll-content" scroll-y="true" enhanced="true" show-scrollbar="false">
+    <view class="scroll-inner">
+      
+      <!-- 标签栏 -->
+      <view class="tag-bar">
+        <text class="tag-item">🏔️ 第一福地·第八洞天</text>
+        <text class="tag-item">📜 三茅仙踪</text>
+        <text class="tag-item">🖋️ 谪仙道缘</text>
+        <text class="tag-item">🔥 山中奇事</text>
+        <text class="tag-item">🏛️ 景点点志</text>
+        <text class="tag-item">🎮 趣测游茅山</text>
+      </view>
+
+      <!-- 茅山·第一福地·第八洞天 -->
+      <view class="section">
+        <view class="section-title">🏔️ 茅山 · 第一福地 · 第八洞天</view>
+        <view class="section-body">
+          <text class="para">茅山位于江苏省西南部，横跨镇江句容市与常州金坛区，主峰大茅峰海拔372.5米。虽不高峻，却是道教上清派的发源地，素有「第一福地，第八洞天」之美誉，历来被尊为道教圣地。</text>
+          <text class="para">茅山古道绵延，宫观错落，千年积淀使其成为中国道教的「上清宗坛」。这里不只是供奉神仙的地方，更是一座活着的历史博物馆——先秦方士在此隐居炼丹，两汉三茅真君在此得道飞升，东晋杨羲许谧在此传承上清经法，南朝陶弘景在此开创茅山宗。</text>
+        </view>
+      </view>
+
+      <!-- 三茅仙踪 -->
+      <view class="section">
+        <view class="section-title">📜 三茅仙踪</view>
+        <view class="section-body">
+          <text class="para">大哥茅盈最为传奇——葛洪《神仙传》记载，他十八岁离家入恒山修道，四十九岁时回到家乡，已经可以治病救灾、「起死回生」。他的法术能让死去的榕树复生，乡亲们因此深信他已修成正果。两位弟弟见大哥真得了大道，才下决心一同来到句曲山，最终一门三兄弟全部得道成仙。后人感念他们的功德，改"句曲山"为"茅山"，这便是茅山之名的由来。</text>
+        </view>
+      </view>
+
+      <!-- 诗仙李白 -->
+      <view class="section">
+        <view class="section-title">🖋️ 诗仙李白，曾是茅山道士</view>
+        <view class="section-body">
+          <text class="para">这是茅山最令人惊讶的故事之一：写出「天生我材必有用」的李白，竟然是一位正式的茅山道士——他在茅山受过法箓，等同于获得了道家的正式学位。</text>
+          <text class="para">李白一生以「谪仙人」自居，诗中充满仙气，根源就在他与茅山上清派的不解之缘。他年轻时离开四川，在江陵遇到了茅山上清派第十二代宗师司马承祯。这位年长他62岁的老道长一见李白便说：「有仙根！」两人结成忘年交，李白激动地写下《大鹏遇希有鸟赋》，自比展翅大鹏，将司马承祯比作昆仑神鸟。后来司马承祯在王屋山仙逝，李白重访故地时悲从中来，挥笔写下传世之作《上阳台帖》——这也是李白存世的唯一书法真迹，现藏于北京故宫博物院。</text>
+          <text class="para">还有更熟悉的：《将进酒》中那句「岑夫子，丹丘生，将进酒，杯莫停」——丹丘生就是李白的另一位茅山道友元丹丘。李白在茅山不止结交了道士，更把整座山都写进了诗里。</text>
+        </view>
+      </view>
+
+      <!-- 山中宰相与炼丹仙师 -->
+      <view class="section">
+        <view class="section-title">⛰️ 山中宰相与炼丹仙师</view>
+        <view class="section-body">
+          <text class="para">南梁时期的陶弘景，是茅山历史上举足轻重的人物。他早年任官，37岁时辞官隐居于茅山华阳洞，自号「华阳隐居」。梁武帝每逢军国大事必派人进山咨询，人称「山中宰相」。陶弘景在茅山整理上清经法，编纂《真诰》，确立了茅山宗的道教体系。相传他精通医药，在茅山遍寻草药，编成《本草经集注》，收录药物730种，是中国医药史上的重要人物。</text>
+          <text class="para">而更早的东晋时期，葛洪也曾来茅山炼丹。《抱朴子》中的许多炼丹实验，据传就是在茅山华阳洞附近完成的。茅山至今仍有「华阳洞天」的名号，便是葛洪与陶弘景留下的文化印记。</text>
+        </view>
+      </view>
+
+      <!-- 茅山三怪 -->
+      <view class="section">
+        <view class="section-title">🔥 茅山三怪：连本地人都不一定全知道的奇观</view>
+        <view class="section-body">
+          <text class="para"><text class="bold">一怪：喜客泉 · 客来泉涌。</text>大茅峰西北麓有一眼古泉，游客在泉边拍手、跺脚，泉底便会冒出串串气泡，仿佛泉水在「鼓掌欢迎」。道家称之为「天人感应」，科学解释为声波震动所致——但站在泉边亲眼所见时，你宁愿相信这是山的心灵。传说当年三茅真君每次回山，泉水都会提前涌动迎接。</text>
+          <text class="para"><text class="bold">二怪：碑下放鞭炮 · 空中响军号。</text>苏南抗战胜利纪念碑前有一个世界级奇观：在碑前燃放鞭炮，你会听到空中传来「嘟哒哒嘀哒」的军号声。这并非音响效果，而是碑体的独特建筑结构造成的声波反射。但这声音刚好与抗战军号相似，仿佛英灵从未远去。</text>
+          <text class="para"><text class="bold">三怪：老子掌中的蜂。</text>大茅峰脚下老子神像，左手掌心摊开，掌心有一窝野蜂。蜂群在此筑巢已逾十年，每年春来秋去，从不蜇人。当地人对应「护蜂」。风水之说，真假虚实，谁也说不清，但本地人都觉得这是「老子显灵」。</text>
+        </view>
+      </view>
+
+      <!-- 茅山胜迹 -->
+      <view class="section">
+        <view class="section-title">🏛️ 茅山胜迹：古人留下的地图</view>
+        <view class="section-body">
+          <text class="para"><text class="bold">九霄万福宫（顶宫）</text>——坐落在大茅峰之巅，是茅山海拔最高的道观。始建于西汉，原名「圣佑观」，明代敕赐改名。站在顶宫前远眺，群峰如浪，云海翻涌，可见长江如银带蜿蜒东方。殿内供奉三茅真君，千年香火从未断绝。</text>
+          <text class="para"><text class="bold">元符万宁宫（印宫）</text>——位于积金峰南腰，因宋哲宗曾将玉印藏于此得名「印宫」。宫内保存着宋徽宗御赐的「镇山四宝」：玉印、玉圭、哈砚、玉符。那尊33米的老子铜像就在此宫之中，面向东南，神态慈祥。</text>
+          <text class="para"><text class="bold">华阳洞</text>——茅山之所以是「第八洞天」，根源在华阳洞。洞中钟乳倒悬，阴河潜流。陶弘景曾在此隐居，葛洪在此炼丹。站在洞口，似乎仍能听到千年前的丹炉炉火声。</text>
+          <text class="para"><text class="bold">楚王涧</text>——大茅峰与二茅峰之间一条幽深的溪谷，两旁古木参天，溪水潺潺。传说春秋时楚王曾在此游历，后人命名为楚王涧。这里也是不少本地人小时候野炊踏青的秘密去处。</text>
+          <text class="para"><text class="bold">苏南抗战胜利纪念碑</text>——茅山不仅是道教名山，更是全国六大山地抗日根据地之一。陈毅、粟裕等老一辈革命家曾在此领导抗日斗争。纪念碑前的「碑下放鞭炮，空中响军号」奇观，更让这座纪念碑成为独一无二的红色景点。</text>
+        </view>
+      </view>
+
+      <!-- 山中岁月 -->
+      <view class="section">
+        <view class="section-title">🌾 山中岁月：茅山脚下的风土人情</view>
+        <view class="section-body">
+          <text class="para">对本地人而言，茅山不只是景区——每逢农历初一十五，周边老人会挎着竹篮上山进香；清明前后，茅山遍山的杜鹃花开如霞；夏天十八泉的溪水是孩子们嬉闹的游乐场；冬至时家家户户吃「茅山老鹅」。</text>
+          <text class="para">茅山周边的村落保留着许多古老习俗：正月舞龙灯路过道观要拜三拜，端午采艾草要念「茅山仙师保佑」，秋天上山采野生的茅山葛根泡茶。这些藏在日常里的仪式感，比任何旅游宣传册都要真实。</text>
+          <text class="para">苏轼好友王巩被贬时，苏轼以茅山景色激励友人，诗中提到「茅山隐君子」。宋代诗人陆游也在诗作中多次提及茅山，将这里视为精神家园。</text>
+          <text class="para">茅山还有许多文人的石刻题记散布在山中。唐代书法大家柳公权、宋代文豪范仲淹的后人范成大，都曾在茅山留下墨迹。一石一字，皆是千年对话。</text>
+        </view>
+      </view>
+
+      <!-- 玩测试·游茅山 -->
+      <view class="section">
+        <view class="section-title">🎮 玩测试 · 游茅山</view>
+        <view class="section-body">
+          <text class="para">你在这个小程序里经历的每一场测试，你在「场景冒险」中穿越的鬼市、仙门、妖界，你在图鉴中收藏的每一张道教神灵卡片——它们都不是凭空编造的。</text>
+          <text class="para">五行人格的背后，是茅山千年道教哲学的智慧；前世今生测试的叙事中，藏着大茅峰上的三茅飞升传说；守护神兽的形态里，融合了茅山道教符箓笔画的灵感；而在场景冒险的「鬼市奇遇」「仙门考核」「妖界判官」中，每一段故事都在茅山的某座古庙、某处洞天、某条幽涧中发生过类似的传说。</text>
+          <text class="para">来茅山游玩，你看到的是建筑和风景。但如果你先玩了茅山趣测，再走进茅山，你会发现——每一座宫殿都有故事，每一处洞穴都有传奇，每一眼泉水都有灵性。你不再是走马观花的游客，而是带着千年文化的密码，走进了一座有温度的山。</text>
+          <text class="para">如果还没去过茅山——没关系，玩一遍我们的测试，等于提前听了专业导游为你讲解了一整座山的故事。</text>
+        </view>
+      </view>
+
     </view>
-    <view class="menu-item" bindtap="goPrivacy">
-      <text class="menu-icon">🔒</text>
-      <text class="menu-text">隐私政策</text>
-      <text class="menu-arrow">›</text>
+  </scroll-view>
+
+  <!-- 底部固定：法律+位置+备案 -->
+  <view class="footer-fixed">
+    <view class="disclaimer-box">
+      <text class="disclaimer-title">⚠️ 免责声明</text>
+      <text class="disclaimer-text">本小程序所有测试结果仅供娱乐参考，不构成任何形式的专业心理评估、医学诊断或建议。如感心理不适，请立即停止使用并寻求专业帮助。</text>
     </view>
-    <view class="menu-item" bindtap="goTerms">
-      <text class="menu-icon">📜</text>
-      <text class="menu-text">用户协议</text>
-      <text class="menu-arrow">›</text>
+    <text class="source-note">📚 以上内容基于公开资料整理，仅供了解茅山文化参考。</text>
+    <view class="location-bar">
+      <text class="loc-icon">📍</text>
+      <text class="loc-text">江苏省镇江市句容市茅山</text>
     </view>
-    <view class="menu-item" bindtap="openIcpUrl" wx:if="{{legal.icp.showInFooter && legal.icp.number}}">
-      <text class="menu-icon">🏛️</text>
-      <text class="menu-text">备案信息</text>
-      <text class="menu-arrow">›</text>
-    </view>
+    <text class="coop-text">🤝 欢迎文旅相关单位、道院及社会各界洽谈文化合作与定制</text>
+    <text class="icp-text">苏ICP备2026035422号-3X</text>
+    <text class="copyright">2026 © 句容市茅山风景区停云商贸中心（个体工商户）</text>
   </view>
 
-  <!-- 免责声明 -->
-  <view class="disclaimer-box">
-    <text class="disclaimer-title">⚠️ 重要声明</text>
-    <text class="disclaimer-text">本小程序所有测试结果仅供娱乐参考，不构成任何形式的专业心理评估、医学诊断或建议。请勿将测试结果作为重大决策依据。如感心理不适，请寻求专业帮助。</text>
-  </view>
-
-  <!-- 底部 -->
-  <view class="footer-bar">
-    <text bindtap="onDevTap">{{legal.copyright.year}} © {{legal.copyright.company}}</text>
-    <text>{{legal.icp.number}}</text>
-  </view>
+  <bottom-nav current="about" />
 </view>

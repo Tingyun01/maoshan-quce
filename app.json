@@ -11,7 +11,8 @@
     "pages/admin-images/admin-images",
     "pages/about/about",
     "pages/privacy/privacy",
-    "pages/terms/terms"
+    "pages/terms/terms",
+    "pages/changelog/changelog"
   ],
   "window": {
     "navigationStyle": "custom",

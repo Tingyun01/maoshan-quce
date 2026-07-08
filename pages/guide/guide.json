@@ -1,4 +1,4 @@
 {
-  "usingComponents": {},
+  "usingComponents": { "bottom-nav": "/components/bottom-nav/bottom-nav" },
   "navigationStyle": "custom"
 }

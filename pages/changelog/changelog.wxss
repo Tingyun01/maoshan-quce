@@ -1,0 +1,24 @@
+.container { min-height: 100vh; background: #F5F0E8; padding: 0 32rpx 60rpx; }
+
+.page-header { display: flex; align-items: center; padding-bottom: 20rpx; position: relative; }
+.page-back { font-size: 26rpx; color: #8B7355; padding: 12rpx 0; }
+.page-title { font-size: 32rpx; font-weight: 700; color: #2A3D35; position: absolute; left: 50%; transform: translateX(-50%); }
+
+.version-badge { text-align: center; font-size: 40rpx; font-weight: 800; color: #FFF8F5; background: linear-gradient(135deg, #C9A96E, #8B7355); padding: 12rpx 40rpx; border-radius: 40rpx; margin: 24rpx auto 8rpx; width: fit-content; }
+.version-date { text-align: center; font-size: 24rpx; color: #A09080; margin-bottom: 32rpx; }
+
+.log-list { display: flex; flex-direction: column; gap: 20rpx; }
+.log-item { display: flex; gap: 16rpx; padding: 20rpx 24rpx; background: #FFF8F5; border-radius: 16rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04); }
+.log-dot { width: 16rpx; height: 16rpx; border-radius: 50%; margin-top: 6rpx; flex-shrink: 0; }
+.log-dot.fix { background: #E8724A; }
+.log-dot.new { background: #4A9E6A; }
+.log-dot.imp { background: #C9A96E; }
+.log-dot.safe { background: #5A8AB5; }
+
+.log-content { flex: 1; }
+.log-tag { font-size: 20rpx; font-weight: 600; padding: 2rpx 12rpx; border-radius: 8rpx; margin-bottom: 6rpx; display: inline-block; }
+.log-tag.fix { color: #FFF8F5; background: #E8724A; }
+.log-tag.new { color: #FFF8F5; background: #4A9E6A; }
+.log-tag.imp { color: #FFF8F5; background: #C9A96E; }
+.log-tag.safe { color: #FFF8F5; background: #5A8AB5; }
+.log-desc { font-size: 24rpx; color: #5C4A3A; line-height: 1.6; display: block; margin-top: 4rpx; }

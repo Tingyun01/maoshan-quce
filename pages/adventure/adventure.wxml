@@ -119,4 +119,8 @@
 
   <!-- 隐藏 Canvas 用于生成分享卡 -->
   <canvas type="2d" id="cardCanvas" style="width: 540px; height: 720px; position: fixed; left: -9999px; top: 0;"></canvas>
+
+  <view style="height: 120rpx;"></view>
+  <music-float />
+  <bottom-nav current="guide" />
 </view>

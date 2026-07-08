@@ -189,4 +189,7 @@
     </view>
   </view>
 
+  <music-float />
+  <bottom-nav current="guide" />
+  <view style="height: 120rpx;"></view>
 </view>

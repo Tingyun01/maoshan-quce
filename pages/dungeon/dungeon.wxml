@@ -57,5 +57,8 @@
     </view>
   </view>
 
-  <view style="height: 60rpx;"></view>
+  <view style="height: 120rpx;"></view>
+
+  <music-float />
+  <bottom-nav current="guide" />
 </view>

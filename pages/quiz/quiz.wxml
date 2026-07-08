@@ -99,7 +99,7 @@
           <text class="qo-icon">⏳</text>
           <view class="qo-text-group">
             <text class="qo-label">小憩片刻</text>
-            <text class="qo-desc">30分钟恢复1次 · 上限5次</text>
+            <text class="qo-desc">30分钟恢复1次 · 上限7次</text>
             <text class="qo-countdown" wx:if="{{quotaNextRecover}}">{{quotaNextRecover}} 后恢复</text>
           </view>
         </view>
@@ -139,4 +139,6 @@
       </view>
     </view>
   </view>
+
+  <music-float />
 </view>

@@ -15,7 +15,7 @@
  *   ad_watch          — 看激励广告
  *   ad_result         — 广告结果（成功/跳过）
  *   quota_exhausted   — 配额用尽
- *   ai_unlock         — 解锁AI分析
+ *   insight_unlock    — 解锁深度解读
  *   fortune_claim     — 领取运势
  *   poster_generate   — 生成海报
  *   guide_open        — 打开导览图

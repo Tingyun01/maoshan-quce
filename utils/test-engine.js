@@ -41,8 +41,8 @@ class TestEngine {
     return cfg;
   }
 
-  /** AI 深度分析 — 基于配置数据本地生成，不再依赖云函数 */
-  getAIAnalysis(typeCode, qaArr) {
+  /** 深度分析 — 基于配置数据本地生成 */
+  getInsightAnalysis(typeCode, qaArr) {
     const cfg = this.config.results[typeCode] || this.config.results['default'] || {};
     const testName = this.config.name || '未知测试';
     const typeTitle = cfg.title || '未知类型';

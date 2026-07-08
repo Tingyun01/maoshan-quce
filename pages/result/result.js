@@ -4,6 +4,7 @@ const collectionMgr = require('../../utils/collection-manager');
 const journeyMgr = require('../../utils/journey-manager');
 const POSTER_IMAGES = require('../../config/poster-images');
 const POSTER_GRADIENTS = require('../../config/poster-gradients');
+const RARITY_STATS = require('../../config/rarity-stats');
 const { resolveCloudUrl } = require('../../utils/cloud-image');
 const audio = require('../../utils/audio-engine');
 const analytics = require('../../utils/analytics');
@@ -19,10 +20,10 @@ Page({
       typeTitle: '', typeSummary: '', typeBrief: '',
       testIcon: '道',
       // 新字段
-      rank: '', tagline: '', rarity: '', percent: '',
+      rank: '', tagline: '', rarity: '', percent: '', beatPercent: '',
       strengths: '', weaknesses: '', career: '', conversation: '',
       ratings: null, ratingKeys: [],
-      aiUnlocked: false, aiLoading: false, aiText: '',
+      insightUnlocked: false, insightLoading: false, insightText: '',
       showSharePoster: false, sharePosterUrl: '',
       showResult: false, animateRatings: false,
       statusBarHeight: 44,
@@ -65,6 +66,12 @@ Page({
       trueSelf = dualView.trueSelf;
     }
 
+    // 从稀有度统计配置获取 percent 和 beat
+    const rarityKey = stored.testId + '.' + stored.type;
+    const rarityStat = RARITY_STATS[rarityKey] || {};
+    const percentVal = res.percent || (rarityStat.percent ? rarityStat.percent + '%' : '');
+    const beatVal = rarityStat.beat ? '击败 ' + rarityStat.beat + '% 的修仙者' : '';
+
     this.setData({
       testIcon: cfg?.icon || '道',
       typeTitle: res.title || stored.title,
@@ -73,7 +80,8 @@ Page({
       rank: res.rank || '',
       tagline: res.tagline || '',
       rarity: res.rarity || '',
-      percent: res.percent || '',
+      percent: percentVal,
+      beatPercent: beatVal,
       strengths: res.strengths || '',
       weaknesses: res.weaknesses || '',
       career: res.career || '',
@@ -152,24 +160,24 @@ Page({
     }
   },
 
-  unlockAI() {
-    analytics.track('ad_watch', { source: 'ai_unlock', testId: this.data.testId, type: this.data.type });
+  unlockInsight() {
+    analytics.track('ad_watch', { source: 'insight_unlock', testId: this.data.testId, type: this.data.type });
     const ad = app.globalData.rewardedVideoAd;
     if (ad) {
       ad.show().catch(() => {
-        ad.load().then(() => ad.show()).catch(() => this._generateAIAnalysis());
+        ad.load().then(() => ad.show()).catch(() => this._generateInsight());
       });
       ad.onClose((res) => {
-        if (res && res.isEnded) this._generateAIAnalysis();
+        if (res && res.isEnded) this._generateInsight();
         else wx.showToast({ title: '看完广告即可解锁', icon: 'none' });
       });
     } else {
-      this._generateAIAnalysis();
+      this._generateInsight();
     }
   },
 
-  _generateAIAnalysis() {
-    wx.showLoading({ title: '正在生成分析...' });
+  _generateInsight() {
+    wx.showLoading({ title: '正在生成解读...' });
     setTimeout(() => {
       const stored = wx.getStorageSync('testResult');
       const storedQA = stored?._qaArr || [];
@@ -182,12 +190,12 @@ Page({
             engine.addAnswer(qa.qId, qa.optionIdx);
           }
         });
-        analysisText = engine.getAIAnalysis(stored.type, storedQA);
+        analysisText = engine.getInsightAnalysis(stored.type, storedQA);
       }
       if (!analysisText) {
         analysisText = `作为${this.data.typeTitle}，你有着独特的气质和天赋。想了解更多深度分析？后续版本将为你带来更精彩的解读！`;
       }
-      this.setData({ aiUnlocked: true, aiText: analysisText, aiLoading: false });
+      this.setData({ insightUnlocked: true, insightText: analysisText, insightLoading: false });
       wx.hideLoading();
     }, 600);
   },
@@ -488,7 +496,7 @@ Page({
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
 
-        // ===== 右下角二维码（覆盖AI水印区域）=====
+        // ===== 右下角二维码（覆盖水印区域）=====
         const qrS = 80;
         const qrXc = w - qrS - 12, qrYc = h - qrS - 12;
         ctx.fillStyle = '#FFFFFF';

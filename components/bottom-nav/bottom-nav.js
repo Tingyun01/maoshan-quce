@@ -9,10 +9,10 @@ Component({
 
   data: {
     tabs: [
-      { key: 'index', icon: '🎯', label: '首页', page: 'pages/index/index' },
+      { key: 'index', icon: '🎯', label: '次数', page: 'pages/index/index' },
       { key: 'guide', icon: '🗺️', label: '探索', page: 'pages/guide/guide' },
       { key: 'album', icon: '📖', label: '图鉴', page: 'pages/album/album' },
-      { key: 'about', icon: '👤', label: '我的', page: 'pages/about/about' }
+      { key: 'about', icon: '☯️', label: '我的', page: 'pages/about/about' }
     ]
   },
 

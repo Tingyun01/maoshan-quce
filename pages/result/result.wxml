@@ -17,6 +17,12 @@
     <!-- 稀有度 -->
     <view class="rarity-tag" wx:if="{{rarity}}">{{rarity}}</view>
 
+    <!-- 全服占比 + 击败比例 -->
+    <view class="percent-beat-bar" wx:if="{{percent || beatPercent}}">
+      <text class="pb-percent" wx:if="{{percent}}">⚡ 全服仅 {{percent}}</text>
+      <text class="pb-beat" wx:if="{{beatPercent}}">{{beatPercent}}</text>
+    </view>
+
     <!-- 段子式tagline（分享核心文案） -->
     <text class="tagline" wx:if="{{tagline}}" bindtap="copyConversation">{{tagline}} 📋</text>
 
@@ -81,14 +87,14 @@
     <text class="copy-text">复制话题文案，发朋友圈！</text>
   </view>
 
-  <!-- AI分析 -->
-  <view class="ai-section" wx:if="{{aiUnlocked}}">
-    <text class="ai-title">🔮 AI专属修炼指南</text>
-    <text class="ai-content">{{aiText}}</text>
+  <!-- 专属解读 -->
+  <view class="insight-section" wx:if="{{insightUnlocked}}">
+    <text class="insight-title">🔮 仙师亲临解读</text>
+    <text class="insight-content">{{insightText}}</text>
   </view>
-  <view class="unlock-btn" wx:else bindtap="unlockAI">
+  <view class="unlock-btn" wx:else bindtap="unlockInsight">
     <text class="unlock-icon">🔓</text>
-    <text class="unlock-text">看广告解锁AI专属修炼指南</text>
+    <text class="unlock-text">看广告解锁仙师解读</text>
   </view>
 
   <!-- 操作区 -->
@@ -133,10 +139,19 @@
     <text class="ce-text">邀请好友测一测，看谁更准？</text>
     <text class="ce-arrow">›</text>
   </view>
+
+  <!-- 转发截图按钮 -->
+  <view class="forward-screenshot" bindtap="generatePoster">
+    <text class="fs-icon">↗️</text>
+    <text class="fs-text">转发截图</text>
+  </view>
+
   <text class="slogan-bottom">遇事不决 · 茅山一测</text>
   <text class="disclaimer">本服务为趣味娱乐工具 · 测试结果仅供娱乐</text>
 
   <canvas type="2d" id="sharePosterCanvas" style="width:540px;height:720px;position:fixed;top:-9999px;left:-9999px;"></canvas>
+
+  <music-float />
 
   <view class="poster-overlay" wx:if="{{showSharePoster}}" bindtap="closePoster">
     <view class="poster-card" catchtap="">

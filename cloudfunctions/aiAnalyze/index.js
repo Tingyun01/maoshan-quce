@@ -1,17 +1,16 @@
 /**
- * aiAnalyze 云函数 — AI深度分析引擎
+ * 深度分析云函数
  * 
- * 调用链：用户测完 → 前端判断预算 → 调用此云函数 → AI API → 返回分析
+ * 调用链：用户测完 → 前端判断预算 → 调用此云函数 → API → 返回分析
  * 
  * 支持后端：
- *   - 腾讯混元 (hunyuan.tencentcloudapi.com)
  *   - 兼容 OpenAI 格式的任意API
  * 
  * 环境变量（在云函数中配置）：
- *   AI_API_KEY      — API密钥（必填）
- *   AI_API_URL       — API地址（选填，默认混元）
- *   AI_MODEL         — 模型名（选填，默认 hunyuan-lite）
- *   AI_MAX_TOKENS    — 最大输出token（选填，默认600）
+ *   API_KEY         — API密钥（必填）
+ *   API_URL          — API地址（选填）
+ *   MODEL           — 模型名（选填）
+ *   MAX_TOKENS      — 最大输出token（选填，默认600）
  */
 
 const cloud = require('wx-server-sdk');
@@ -130,7 +129,7 @@ function buildPrompt(data) {
     .map((a, i) => `Q${i + 1}: ${(a.question || '').substring(0, 20)} → ${a.answer || a.optionText || ''}`)
     .join('; ');
 
-  return `你是茅山道院的AI仙师，请为以下测试结果写一段风趣的解读（150-200字）。
+  return `你是茅山道院的道系仙师，请为以下测试结果写一段风趣的解读（150-200字）。
 
 测试：${data.testName || '未知'}
 结果：${data.typeTitle || '未知'}
@@ -158,7 +157,7 @@ async function callAI(prompt, config) {
   const body = JSON.stringify({
     model: model,
     messages: [
-      { role: 'system', content: '你是一个风趣幽默的道教AI仙师，善用网络热梗和道教文化混合解读。回答精炼有趣。内容安全红线：不生成色情/暴力/违法/政治敏感内容；不提供医疗诊断/金融投资建议；不宣扬封建迷信；所有解读仅限趣味娱乐，不做真实预测或指导人生重大决策。' },
+      { role: 'system', content: '你是一个风趣幽默的道教道系仙师，善用网络热梗和道教文化混合解读。回答精炼有趣。内容安全红线：不生成色情/暴力/违法/政治敏感内容；不提供医疗诊断/金融投资建议；不宣扬封建迷信；所有解读仅限趣味娱乐，不做真实预测或指导人生重大决策。' },
       { role: 'user', content: prompt }
     ],
     max_tokens: maxTokens,

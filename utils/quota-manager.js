@@ -34,8 +34,8 @@ function getQuota() {
 function initQuota() {
   const now = Date.now();
   const data = {
-    total: 5,                       // 当前可用次数
-    maxTotal: 5,                    // 自然恢复上限
+    total: 7,                       // 当前可用次数
+    maxTotal: 7,                    // 自然恢复上限
     lastRecoverTime: now,            // 上次自然恢复时间
     todayShareCount: 0,             // 今日已通过分享恢复次数
     todayAdCount: 0,                // 今日已通过广告恢复次数
@@ -69,7 +69,7 @@ function checkDailyReset(data) {
   return data;
 }
 
-/** 处理自然恢复（每30分钟恢复1次，上限5次） */
+/** 处理自然恢复（每30分钟恢复1次，上限7次） */
 function processRecovery(data) {
   const now = Date.now();
   const elapsed = now - data.lastRecoverTime;

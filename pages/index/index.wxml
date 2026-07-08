@@ -25,58 +25,84 @@
   <image class="bg-mountain" src="/images/仙山.jpg" mode="aspectFill"></image>
   <view class="bg-mountain-overlay"></view>
 
-  <!-- ===== 顶部品牌 ===== -->
+  <!-- ===== 顶部品牌（截图版）===== -->
   <view class="header-section">
     <image class="header-logo" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
     <text class="header-title">茅山趣测</text>
     <text class="header-sub">遇事不决 · 茅山一测</text>
+    <view class="streak-tag" wx:if="{{streak > 0}}">
+      <text class="streak-icon">🔥</text>
+      <text class="streak-text">连续{{streak}}天修仙</text>
+    </view>
   </view>
 
-  <!-- ===== 核心：引导语 + 随缘一测 ===== -->
-  <view class="core-section">
-    <text class="core-welcome">欢迎来到茅山趣测</text>
-    <view class="core-divider"></view>
-    <text class="core-line">每个人心里都藏着</text>
-    <text class="core-line">一个不为人知的小秘密</text>
-    <view class="core-spacer"></view>
-    <text class="core-hint">往往不经意的一次，</text>
-    <text class="core-hint">也许就是最准的那一次。</text>
-    <view class="core-btn-wrap" bindtap="entryTest">
-      <view class="core-btn">
-        <text class="core-btn-text">随缘一测</text>
+  <!-- ===== 图鉴进度卡片 ===== -->
+  <view class="album-card" bindtap="goAlbum">
+    <view class="album-card-header">
+      <view class="album-card-left">
+        <text class="album-icon">📖</text>
+        <text class="album-title">仙途图鉴</text>
+        <text class="album-count">{{collectionStats.unlocked}}/{{collectionStats.total}}</text>
       </view>
+      <text class="album-arrow">查看全部 →</text>
+    </view>
+    <view class="album-progress-bar">
+      <view class="album-progress-fill" style="width:{{collectionStats.percent}}%"></view>
+    </view>
+    <text class="album-hint">多做几个测试，收集更多图鉴吧~</text>
+  </view>
+
+  <!-- ===== 精选测试入口（3卡片横排）===== -->
+  <view class="featured-grid">
+    <view class="feat-card" wx:for="{{featuredTests}}" wx:key="id" bindtap="goFeaturedTest" data-id="{{item.id}}" data-page="{{item.page}}">
+      <view class="feat-card-top">
+        <text class="feat-icon">{{item.icon}}</text>
+        <text class="feat-tag" style="background:{{item.color}}">{{item.tag}}</text>
+      </view>
+      <text class="feat-name">{{item.name}}</text>
+      <text class="feat-desc">{{item.desc}}</text>
+      <text class="feat-enter">进入 →</text>
+    </view>
+  </view>
+
+  <!-- ===== 核心：不知道怎么选 + 随缘一测 ===== -->
+  <view class="core-section">
+    <text class="core-question">不知道怎么选？</text>
+    <text class="core-hint">不如把选择交给缘分</text>
+    <view class="core-btn-wrap" bindtap="entryTest">
       <view class="taiji-ring">
         <text class="taiji-icon">☯</text>
       </view>
+      <view class="core-btn">
+        <text class="core-btn-text">随缘一测</text>
+      </view>
+    </view>
+    <text class="core-subhint">随机开启一个趣味测试</text>
+  </view>
+
+  <!-- ===== 全部道法（折叠区）===== -->
+  <view class="all-tests-bar" bindtap="toggleAllTests">
+    <text class="all-tests-icon">📜</text>
+    <text class="all-tests-text">全部道法</text>
+    <text class="all-tests-arrow {{showAllTests ? 'up' : ''}}">▼</text>
+  </view>
+  <view class="all-tests-grid {{showAllTests ? 'show' : ''}}">
+    <view class="all-test-item" wx:for="{{allTests}}" wx:key="id" bindtap="goAllTest" data-id="{{item.id}}">
+      <text class="all-test-icon">{{item.icon}}</text>
+      <text class="all-test-name">{{item.name}}</text>
     </view>
   </view>
 
-  <!-- ===== 底部工具条（4项）===== -->
-  <view class="bottom-bar">
-    <view class="bb-item bb-main" bindtap="showQuotaInfo">
-      <text class="bb-icon">🎯</text>
-      <text class="bb-label">{{quotaTotal}}次</text>
-      <text class="bb-dot" wx:if="{{!fortuneClaimed && fortune}}"></text>
-    </view>
-    <view class="bb-item bb-main" bindtap="goAlbum">
-      <text class="bb-icon">📖</text>
-      <text class="bb-label">图鉴</text>
-    </view>
-    <view class="bb-item bb-main" bindtap="goGuide">
-      <text class="bb-icon">🗺️</text>
-      <text class="bb-label">探索</text>
-    </view>
-    <view class="bb-item bb-main" bindtap="goAbout">
-      <text class="bb-icon">☯️</text>
-      <text class="bb-label">我的</text>
-    </view>
-  </view>
+  <!-- ===== 全局底部导航栏 ===== -->
+  <bottom-nav current="index" bindhometap="showQuotaInfo" />
 
   <!-- ===== 底部法律信息 ===== -->
   <view class="bottom-legal">
     <text class="disclaimer-text">本服务为趣味娱乐工具，所有结果仅供娱乐参考</text>
     <text class="icp-text" wx:if="{{legal.icp.number}}">{{legal.icp.number}}</text>
   </view>
+
+  <view style="height: 120rpx;"></view>
 
   <!-- ===== 次数用完弹窗 ===== -->
   <view class="quota-mask" wx:if="{{showQuotaModal}}">
@@ -87,7 +113,7 @@
           <text class="qo-icon">⏳</text>
           <view class="qo-text-group">
             <text class="qo-label">小憩片刻</text>
-            <text class="qo-desc">30分钟恢复1次 · 上限5次</text>
+            <text class="qo-desc">30分钟恢复1次 · 上限7次</text>
             <text class="qo-countdown" wx:if="{{quotaNextRecover}}">{{quotaNextRecover}} 后恢复</text>
           </view>
         </view>
@@ -176,5 +202,8 @@
   <view class="help-float {{tutorialSeen ? 'show' : ''}}" bindtap="openTutorial">
     <text class="help-float-icon">?</text>
   </view>
+
+  <!-- ===== 场景自适应音乐浮窗（仅在隐私同意后渲染） ===== -->
+  <music-float wx:if="{{!showPrivacyModal}}" />
 
 </view>

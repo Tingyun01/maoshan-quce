@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "图鉴",
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": { "music-float": "/components/music-float/music-float", "bottom-nav": "/components/bottom-nav/bottom-nav" }
 }

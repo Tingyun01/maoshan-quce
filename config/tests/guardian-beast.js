@@ -57,7 +57,7 @@ module.exports = {
       options: [
         { text: '呼风唤雨，掌控自然', score: { dragon: 2 } },
         { text: '浴火重生，永不放弃', score: { phoenix: 2 } },
-        { text: '庇护苍生，消灾解难', score: { qilin: 2 } },
+        { text: '庇护苍生，化解烦忧', score: { qilin: 2 } },
         { text: '震慑宵小，百邪不侵', score: { tiger: 2 } }
       ]
     }

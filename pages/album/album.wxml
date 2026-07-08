@@ -5,7 +5,7 @@
   <!-- 顶部统计 -->
   <view class="album-header">
     <text class="album-title">📖 结果图鉴</text>
-    <text class="album-sub">收集所有测试结果，点亮你的仙途</text>
+    <text class="album-sub">完成测试解锁图鉴，点亮你的仙途</text>
   </view>
   <view class="album-stats">
     <view class="as-item">
@@ -23,8 +23,6 @@
       <text class="as-label">收集进度</text>
     </view>
   </view>
-
-  <!-- 进度条 -->
   <view class="album-progress">
     <view class="ap-track">
       <view class="ap-fill" style="width: {{stats.percent}}%"></view>
@@ -42,24 +40,39 @@
             wx:for="{{item.items}}" wx:key="key"
             data-key="{{i.key}}"
             bindtap="onItemTap">
-        <view class="cc-overlay" wx:if="{{!i.unlocked}}">
-          <text class="cc-lock-icon">🔒</text>
-        </view>
-        <text class="cc-icon">{{i.unlocked ? '✨' : '?'}}</text>
-        <text class="cc-name">{{i.unlocked ? i.typeName : '???'}}</text>
+        <!-- 锁定卡片 — 灰色底+动画图标+"在里面晃"+锁标 -->
+        <block wx:if="{{!i.unlocked}}">
+          <view class="cc-overlay"><text class="cc-lock-icon">🔒</text></view>
+          <view class="cc-particles">
+            <view class="cc-particle"></view>
+            <view class="cc-particle cc-p2"></view>
+            <view class="cc-particle cc-p3"></view>
+          </view>
+          <text class="cc-teaser-icon">{{i.teaser ? i.teaser.icon : '❓'}}</text>
+          <text class="cc-teaser-name">{{i.teaser ? i.teaser.name : '秘'}}??</text>
+          <text class="cc-teaser-hint">{{i.teaser ? i.teaser.hint : '未知之境'}}</text>
+        </block>
+        <!-- 已解锁卡片 — 图片缩略+名称 -->
+        <block wx:else>
+          <image class="cc-thumb" src="{{i.thumbUrl || ''}}" mode="aspectFill"
+                 wx:if="{{i.thumbUrl}}"></image>
+          <view class="cc-thumb-fallback" wx:else>✨</view>
+          <text class="cc-name">{{i.typeName}}</text>
+        </block>
       </view>
     </view>
   </view>
 
-  <!-- 底部留白 -->
-  <view style="height: 60rpx;"></view>
+  <view style="height: 120rpx;"></view>
+
+  <music-float />
+  <bottom-nav current="album" />
 
   <!-- ===== 大图详情浮层 ===== -->
   <view class="detail-overlay" wx:if="{{showDetail && detailItem}}" bindtap="closeDetail">
     <view class="detail-card" catchtap="">
       <image class="detail-image" src="{{detailImageUrl}}" mode="aspectFill"
              wx:if="{{detailImageUrl}}"></image>
-      <!-- 品牌遮挡层 - 覆盖水印，防盗 -->
       <view class="detail-brand-bar">
         <image class="detail-qrcode" src="/images/茅山趣测l.jpg" mode="aspectFit"></image>
         <view class="detail-brand-texts">
@@ -70,25 +83,118 @@
       <view class="detail-info">
         <text class="detail-testname">{{detailItem.testName}}</text>
         <text class="detail-typename">{{detailItem.typeName}}</text>
-        <!-- 道德经金句 -->
         <text class="detail-daojing">「{{daojing}}」</text>
-        <!-- 抽签入口 -->
-        <view class="detail-draw" bindtap="drawLot" data-stop="{{''}}">
+        <!-- 开始仪式入口 -->
+        <view class="detail-draw" bindtap="startIncense" data-stop="{{''}}">
           <text class="draw-icon">🎋</text>
-          <text class="draw-text">抽一支茅山签</text>
+          <text class="draw-text">抽取一枚好运签</text>
         </view>
       </view>
       <view class="detail-close" bindtap="closeDetail">关闭</view>
     </view>
   </view>
 
-  <!-- ===== 抽签结果弹窗 ===== -->
-  <view class="lot-overlay" wx:if="{{showLotResult && lotResult}}" bindtap="closeLot">
-    <view class="lot-card" catchtap="">
-      <text class="lot-icon">🎋</text>
-      <text class="lot-title">{{lotResult.text}}</text>
-      <text class="lot-meaning">{{lotResult.meaning}}</text>
-      <view class="lot-close" bindtap="closeLot">收下签文</view>
+  <!-- ===== 仪式浮层：蚊香→搓手→老虎机→箴言 ===== -->
+  <view class="ritual-overlay" wx:if="{{showRitual}}" bindtap="closeRitual">
+    <view class="ritual-card" catchtap="">
+
+      <!-- 步骤指示器：蚊 搓 摇 验 读 -->
+      <view class="ritual-steps">
+        <view class="rs-dot {{ritualStep === 'incense' ? 'active' : ''}}">
+          <text class="rs-label">蚊</text>
+        </view>
+        <view class="rs-line {{ritualStep === 'rub' || ritualStep === 'slot' || ritualStep === 'zen' ? 'done' : ''}}"></view>
+        <view class="rs-dot {{ritualStep === 'rub' ? 'active' : ''}}">
+          <text class="rs-label">搓</text>
+        </view>
+        <view class="rs-line {{ritualStep === 'slot' || ritualStep === 'zen' ? 'done' : ''}}"></view>
+        <view class="rs-dot {{ritualStep === 'slot' ? 'active' : ''}}">
+          <text class="rs-label">摇</text>
+        </view>
+        <view class="rs-line {{ritualStep === 'zen' ? 'done' : ''}}"></view>
+        <view class="rs-dot {{ritualStep === 'zen' ? 'active' : ''}}">
+          <text class="rs-label">验</text>
+        </view>
+      </view>
+
+      <!-- 第一步：点蚊香 -->
+      <block wx:if="{{ritualStep === 'incense'}}">
+        <text class="zen-greeting">🦟 点个蚊香</text>
+        <text class="zen-subtitle">夏天到了，点三盘蚊香驱驱蚊</text>
+        <view class="mosquito-area" catchtap="lightOneIncense">
+          <view class="mosquito-coil {{incenseLit >= 1 ? 'lit' : ''}}">
+            <view class="mc-spiral"></view>
+            <view class="mc-smoke" wx:if="{{incenseLit >= 1}}"></view>
+          </view>
+          <view class="mosquito-coil {{incenseLit >= 2 ? 'lit' : ''}}">
+            <view class="mc-spiral"></view>
+            <view class="mc-smoke" wx:if="{{incenseLit >= 2}}"></view>
+          </view>
+          <view class="mosquito-coil {{incenseLit >= 3 ? 'lit' : ''}}">
+            <view class="mc-spiral"></view>
+            <view class="mc-smoke" wx:if="{{incenseLit >= 3}}"></view>
+          </view>
+        </view>
+        <text class="mosquito-hint" wx:if="{{incenseLit < 3}}">点击蚊香，驱蚊静心</text>
+        <text class="mosquito-hint" wx:else>三盘蚊香已点燃，致礼</text>
+        <view class="ritual-btn ritual-btn-primary" catchtap="lightOneIncense">
+          <text wx:if="{{incenseLit === 0}}">🔥 点第一盘蚊香</text>
+          <text wx:elif="{{incenseLit === 1}}">🔥 点第二盘蚊香</text>
+          <text wx:elif="{{incenseLit === 2}}">🔥 点第三盘蚊香</text>
+          <text wx:else>🙏 三盘已齐，请道长</text>
+        </view>
+      </block>
+
+      <!-- 第二步：搓手三次 -->
+      <block wx:elif="{{ritualStep === 'rub'}}">
+        <text class="zen-greeting">🙏 请道长指路</text>
+        <view class="rub-area" catchtap="doRub">
+          <text class="rub-text" wx:if="{{rubCount < 3}}">搓一搓手，心诚则灵 🤲</text>
+          <text class="rub-text" wx:else>三拜已毕，请箴言！</text>
+        </view>
+        <view class="rub-progress">
+          <view class="rub-dot {{rubCount >= 1 ? 'done' : ''}}"></view>
+          <view class="rub-dot {{rubCount >= 2 ? 'done' : ''}}"></view>
+          <view class="rub-dot {{rubCount >= 3 ? 'done' : ''}}"></view>
+        </view>
+        <view class="ritual-btn ritual-btn-primary" catchtap="doRub">
+          <text wx:if="{{rubCount < 3}}">🤲 搓手第{{rubCount + 1}}次</text>
+          <text wx:else>🔮 开转！</text>
+        </view>
+      </block>
+
+      <!-- 第三步：老虎机旋转 -->
+      <block wx:elif="{{ritualStep === 'slot'}}">
+        <text class="zen-greeting">🎰 箴言机启动</text>
+        <view class="slot-area" catchtap="stopSlot">
+          <text class="slot-reel {{slotSpinning ? 'spinning' : ''}}">{{slotDisplay}}</text>
+          <text class="slot-hint" wx:if="{{slotSpinning}}">轻触停下 · 心诚则灵</text>
+          <text class="slot-hint" wx:else>指尖一停，箴言降临</text>
+        </view>
+        <view class="ritual-btn ritual-btn-primary" catchtap="stopSlot">
+          <text wx:if="{{slotSpinning}}">👆 停下！</text>
+          <text wx:else>🎯 揭晓箴言</text>
+        </view>
+      </block>
+
+      <!-- 第四步：箴言结果 -->
+      <block wx:elif="{{ritualStep === 'zen' && zenResult}}">
+        <view class="zen-card">
+          <text class="zen-type">{{zenResult.type}} · {{zenResult.title}}</text>
+          <text class="zen-verse">{{zenResult.verse}}</text>
+          <text class="zen-insight">{{zenResult.insight}}</text>
+        </view>
+        <!-- 道长解读 -->
+        <view class="zen-aspect" wx:if="{{zenRandomAspect}}">💡 {{zenRandomAspect}}</view>
+        <!-- 分享引导 -->
+        <view class="share-hint" wx:if="{{!alreadyShared}}">
+          <text class="share-hint-tip">🌟 分享给好友，解锁更多箴言</text>
+          <button class="share-hint-btn" open-type="share">📤 分享好友</button>
+        </view>
+        <view class="ritual-btn ritual-btn-secondary" catchtap="closeRitual">收下箴言</view>
+      </block>
+
+      <view class="ritual-close" catchtap="closeRitual">关闭</view>
     </view>
   </view>
 </view>

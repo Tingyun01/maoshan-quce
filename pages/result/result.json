@@ -1,1 +1,1 @@
-{ "navigationStyle": "custom" }
+{ "navigationStyle": "custom", "usingComponents": { "music-float": "/components/music-float/music-float" } }

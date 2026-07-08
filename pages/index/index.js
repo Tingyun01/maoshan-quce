@@ -4,6 +4,8 @@ const legalCfg = require('../../config/legal-config');
 const fortuneHelper = require('../../config/fortune');
 const audio = require('../../utils/audio-engine');
 const analytics = require('../../utils/analytics');
+const collectionMgr = require('../../utils/collection-manager');
+const achievementMgr = require('../../utils/achievement-manager');
 
 // ===== 合规欢迎话术（每日一轮换）=====
 const WELCOME_MESSAGES = [
@@ -28,7 +30,7 @@ const TAO_QUOTES = [
 Page({
   data: {
     themeClass: '',
-    quotaTotal: 5,
+    quotaTotal: 7,
     showPrivacyModal: false,
     legal: legalCfg,
     audioMuted: false,
@@ -45,7 +47,34 @@ Page({
     showQuotaModal: false,
     quotaNextRecover: '',
     quotaShareRemaining: 0,
-    quotaAdRemaining: 0
+    quotaAdRemaining: 0,
+    // 图鉴统计
+    collectionStats: { unlocked: 0, total: 69, percent: 0 },
+    // 连续修仙天数
+    streak: 0,
+    // 精选测试入口
+    featuredTests: [
+      { id: 'adventure', name: '场景冒险', icon: '🏮', desc: '沉浸式分支叙事趣味体验', tag: '独播', color: '#C9A96E', page: '/pages/adventure/adventure' },
+      { id: 'past_life', name: '时空奇缘', icon: '👻', desc: '揭开你的趣味隐藏身份', tag: '热门', color: '#A0522D', page: '/pages/quiz/quiz?id=past_life' },
+      { id: 'guardian_beast', name: '守护伙伴', icon: '🐉', desc: '发现属于你的守护者', tag: '稀有', color: '#4A7A5A', page: '/pages/quiz/quiz?id=guardian_beast' }
+    ],
+    // 全部道法展开
+    showAllTests: false,
+    allTests: [
+      { id: 'immortal', name: '神仙转世', icon: '✨' },
+      { id: 'past_life', name: '前世今生', icon: '👻' },
+      { id: 'guardian_beast', name: '守护神兽', icon: '🐉' },
+      { id: 'spiritual_root', name: '灵根测试', icon: '⚡' },
+      { id: 'wu_xing', name: '五行人格', icon: '☯️' },
+      { id: 'mbti_simple', name: '思维偏好', icon: '🧠' },
+      { id: 'animal_personality', name: '动物灵兽', icon: '🦁' },
+      { id: 'xiuxian', name: '修仙资质', icon: '⚔️' },
+      { id: 'hidden_talent', name: '隐藏天赋', icon: '🔮' },
+      { id: 'love_portrait', name: '桃花缘', icon: '🌸' },
+      { id: 'ancient_id', name: '古代身份', icon: '👑' },
+      { id: 'immortal_cluster', name: '群仙谱', icon: '☁️' },
+      { id: 'stress_test', name: '心境测试', icon: '🍃' }
+    ]
   },
 
   _selectedTestId: '',
@@ -65,6 +94,7 @@ Page({
     this._loadFortune();
     this._checkWelcome();
     this._checkTutorial();
+    this._loadStats();
     this.setData({ audioMuted: audio.isMuted() });
     analytics.track('pv', { page: 'index' });
   },
@@ -182,9 +212,36 @@ Page({
     wx.navigateTo({ url: '/pages/about/about' });
   },
 
+  // ===== 精选测试入口 =====
+  goFeaturedTest(e) {
+    audio.playClick();
+    const page = e.currentTarget.dataset.page;
+    if (page) wx.navigateTo({ url: page });
+  },
+
+  // ===== 全部道法 =====
+  toggleAllTests() {
+    audio.playClick();
+    this.setData({ showAllTests: !this.data.showAllTests });
+  },
+  goAllTest(e) {
+    audio.playClick();
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: '/pages/quiz/quiz?id=' + id });
+  },
+
   showQuotaInfo() {
     audio.playClick();
     this._showQuotaModal();
+  },
+
+  _loadStats() {
+    const stats = collectionMgr.getStats();
+    const streak = achievementMgr._getDailyStreak ? achievementMgr._getDailyStreak() : 0;
+    this.setData({
+      collectionStats: { unlocked: stats.unlocked, total: stats.total, percent: stats.percent },
+      streak: streak
+    });
   },
 
   // ===== 每日道签 =====

@@ -1,0 +1,22 @@
+<view class="container">
+  <!-- 顶部固定：标题 + 返回 -->
+  <view class="page-header" style="padding-top: {{statusBarHeight}}px;">
+    <text class="page-back" bindtap="goBack">← 返回</text>
+    <text class="page-title">版本更新</text>
+  </view>
+
+  <!-- 最新版本 -->
+  <view class="version-badge">v1.0.1</view>
+  <view class="version-date">2026-07-06</view>
+
+  <!-- 更新日志列表 -->
+  <view class="log-list">
+    <view class="log-item" wx:for="{{logs}}" wx:key="index">
+      <view class="log-dot {{item.type}}"></view>
+      <view class="log-content">
+        <text class="log-tag {{item.type}}">{{item.tag}}</text>
+        <text class="log-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+</view>
